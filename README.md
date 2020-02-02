@@ -6,3 +6,5 @@ add the git study
 add the python folder
 
 add the AI folder
+
+add vim folder
