@@ -1,3 +1,5 @@
+数据类型有:Serise,DataFrame
+
 
 
 :sunny:
