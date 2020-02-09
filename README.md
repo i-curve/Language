@@ -8,3 +8,5 @@ add the python folder
 add the AI folder
 
 add vim folder
+
+add image folder.
