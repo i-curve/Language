@@ -16,10 +16,13 @@ the sumary of knowleges.
 
 # Folder
 
-- **[AI](AI)**
-- **[git](git)**
-- **[linux](linux)**
-- **[python](python)**
+- ## **[AI](AI)**
+
+- ## **[Git](Git)**
+
+- ## **[Linux](Linux)**
+
+- ## **[Python](Python)**
 
 
 
