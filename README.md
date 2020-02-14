@@ -1,12 +1,25 @@
 # language
-programming language sumary
 
-add the git study
+the sumary of knowleges.
 
-add the python folder
+***
 
-add the AI folder
 
-add vim folder
 
-add image folder.
+### introduction
+
+​	In the past few years, I have learnt many programing languages and some important knowleges. I discover that I have reached a vary strange status, my threshold. I always feel what it's missing on myself. At this memont, I know I need to slow my forwarding feets. Isn't it another kind of progress.
+
+
+
+### Get it now
+
+```bash
+$ git clone https://github.com/i-curve/language.git
+```
+
+
+
+### License
+
+[BSD-3-ClAUSE License](https://github.com/i-curve/language/blob/master/LICENSE "Title")
