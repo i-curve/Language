@@ -14,6 +14,8 @@ the sumary of knowleges.
 
 ### Get it now
 
+clone it :
+
 ```bash
 $ git clone https://github.com/i-curve/language.git
 ```
@@ -22,4 +24,4 @@ $ git clone https://github.com/i-curve/language.git
 
 ### License
 
-[BSD-3-ClAUSE License](https://github.com/i-curve/language/blob/master/LICENSE "Title")
+[BSD-3-ClAUSE License](LICENSE)
