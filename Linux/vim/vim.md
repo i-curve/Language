@@ -128,7 +128,9 @@ nmap ss <Plug>(easymotion-s2)
 " python-mode
 "
 let g:pymode_python = 'python3'
-"let g:python_python
+let g:pymode_trim_whitespaces = 1
+let g:pymode_rope_goto_definition_bind = '<C-]>'
+let g:pymode_lint = 1 
 "
 "
 " g++-mode
