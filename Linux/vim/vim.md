@@ -2,7 +2,7 @@
 
 
 
-# 移动：
+## 移动：
 
 ```bash
 h,j,k,l移动
@@ -14,7 +14,7 @@ ctrl+f:向下翻页
 
 
 
-# 改:
+## 改:
 
 ```bash
 i,a,o
@@ -28,7 +28,7 @@ c+a/t+_:删除并进入插入模式
 
 
 
-# 查:
+## 查:
 
 ```
 行中查找:
@@ -40,7 +40,7 @@ c+a/t+_:删除并进入插入模式
 
 
 
-# 替换
+## 替换
 
 ```
 :[range]s/{pattern}/{string}/{flags(g,c,n)}
@@ -48,7 +48,7 @@ c+a/t+_:删除并进入插入模式
 
 
 
-# 插件
+## 插件
 
 使用vim-plug插件管理器:[github上网址](https://github.com/junegunn/vim-plug)
 
@@ -78,11 +78,7 @@ PlugClean:清除不在列表中的插件
 
 
 
-
-
-
-
-# 贴上自己vim配置(.vimrc):
+## 贴上自己vim配置(.vimrc):
 
 ```shell
 "这是注释
@@ -101,10 +97,12 @@ set softtabstop=4
 
 set autoindent
 
+"定义映射
 let mapleader=","
 inoremap <leader>w <Esc>:w<cr>
 inoremap jj <Esc>
 vnoremap jj <Esc>
+
 "这是安装插件 vim-plug
 call plug#begin('~/.vim/plugged')
 Plug 'mhinz/vim-startify'
@@ -112,20 +110,24 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'altercation/vim-colors-solarized'
 "Plug 'Yggdroot/indentLine'
-"Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 "Plug 'yyzybb/cppenv'
 "Plug 'xavierd/clang_complete'
 "Plug 'suxpert/vimcaps'
 Plug 'easymotion/vim-easymotion'
 Plug 'scrooloose/nerdtree'
+Plug 'kien/ctrlp.vim'
 call plug#end()
 
-
+"插件中的定义的映射
+nnoremap <leader>v :NERDTreeFind<cr>
+nnoremap <leader>g :NERDTreeToggle<cr>
+let g:ctrlp_map = '<c-p>'
 
 nmap ss <Plug>(easymotion-s2)
 " python-mode
 "
-"let g:pymode_python = 'python3'
+let g:pymode_python = 'python3'
 "let g:python_python
 "
 "
