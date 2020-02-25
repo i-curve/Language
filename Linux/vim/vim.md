@@ -1,25 +1,34 @@
 # 编辑器
 
-## 移动：
+
+
+# 移动：
 
 ```bash
 h,j,k,l移动
 w,e,b移动
-0:移动到行首
-\$:移动到行尾
+$:移动到行尾
 ctrl+u:向上翻页
 ctrl+f:向下翻页
 ```
 
-## 改: 
+
+
+# 改:
 
 ```bash
 i,a,o
 x:删除一个字符
 d+_:删除一个文本对象
+
+r:光标处替换一个字符  R:不断向后替换
+s:删除并进入插入模式  S:删除整行并进入插入模式
+c+a/t+_:删除并进入插入模式
 ```
 
-## 查:  
+
+
+# 查:
 
 ```
 行中查找:
@@ -31,9 +40,49 @@ d+_:删除一个文本对象
 
 
 
+# 替换
+
+```
+:[range]s/{pattern}/{string}/{flags(g,c,n)}
+```
 
 
-## 贴上自己vim配置(.vimrc):
+
+# 插件
+
+使用vim-plug插件管理器:[github上网址](https://github.com/junegunn/vim-plug)
+
+插件查找网站 [VimAwesome](https://vimawesome.com/)
+
+
+
+```bash
+#安装管理器
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+```
+
+在~/.vimrc文件中添加一些内容
+
+```bash
+call plug#begin('~/.vim/plugged')
+"安装的插件名
+call plug#end()
+```
+
+PlugInstall:安装
+
+PlugUpdate\PlugUpgrade::更新
+
+PlugClean:清除不在列表中的插件
+
+
+
+
+
+
+
+# 贴上自己vim配置(.vimrc):
 
 ```shell
 "这是注释
@@ -41,6 +90,9 @@ d+_:删除一个文本对象
 "设置行号
 "set number
 set termencoding=utf-8
+
+"set hlsearch
+"set incsearch
 
 set ts=4
 set softtabstop=4
