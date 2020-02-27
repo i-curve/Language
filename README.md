@@ -20,9 +20,19 @@ the sumary of knowleges.
 
 - ## **[Git](Git)**
 
+- ## **[Image](Image)**
+
+- ## **[Jave](Java)**
+
 - ## **[Linux](Linux)**
 
 - ## **[Python](Python)**
+
+
+
+# Details of upgrade
+
+...
 
 
 
