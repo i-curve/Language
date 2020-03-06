@@ -28,5 +28,37 @@ bash中所有变量统统是做字符型。
 
 ​	扩展(ERE)：去掉了{}，+，？符号之前的\，是以前认知 中的正则表达式
 
+read [option] a b
+
+option: -s 隐藏  -p “要显示的文字”  -t 倒计时 -n 长度 -r：一行包括特殊符
+
+grep [option]:
+
+-i   -o   -v   -q         -A -B -C
+
+sed [option] command
+
+option:-i 原文件编辑 -e多个命令
+
+​	
+
+command:
+
+​	' s/apple/dog/g'  :s替换，apple匹配，dog替换结果，g全局
+
+​	i，a：添加，d删除，c替换
+
+
+
+wc: -l   -w   -c
+
+cut:-d   -f
+
+
+
+sort:-n  -t  -k  -f  -r
+
+uniq:-c
+
 
 
