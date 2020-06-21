@@ -10,7 +10,7 @@ the sumary of knowleges.
 
 # Introduction
 
-​	In the past few years, I have learnt many programing languages and some important knowleges. I discover that I have reached a vary strange status, my threshold. I always feel what it's missing on myself. At this memont, I know I need to slow my forwarding feets. Isn't it another kind of progress.
+​	In the past few years, I have learnt many programing languages and some important knowleges. I discover that I have reached a vary strange status, my threshold. I always feel what it's missing on myself. At this memont, I know I need to slow my forwarding feets. Isn't it another kind of progress?
 
 
 
@@ -18,23 +18,29 @@ the sumary of knowleges.
 
 - ## **[AI](AI)**
 
-- ## **[Git](Git)**
+- ## **[C++](C++)**
 
-- ## **[Image](Image)**
+- ## **[DOCKER](DOCKER)**
 
-- ## **[Jave](Java)**
+- ## **[GIT](GIT)**
 
-- ## **[Linux](Linux)**
+- ## **[IMAGE](IMAGE)**
 
-- ## **[Python](Python)**
+- ## **[JAVA](JAVA)**
+
+- ## **[LINUX](LINUX)**
+
+- ## **[PYTHON](PYTHON)**
 
 
 
 # Details of upgrade
 
+
+before 2020:add the basic message  
+2020.6 : add the docker and c++/makefile usages 
+
 ...
-
-
 
 # Get it now
 
