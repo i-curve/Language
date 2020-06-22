@@ -39,3 +39,5 @@ networks:  #定义网络
 ```
 
 docker-compose up/down/stop -d
+
+[详细说明](https://github.com/docker/docker.github.io/blob/master/compose/compose-file/index.md)
