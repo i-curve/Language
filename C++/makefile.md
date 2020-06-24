@@ -25,6 +25,12 @@ target:dependency
 - makefile文件会把第一个target作为最终的生成文件,然后依次检查依赖,执行命令.
 - 完全可以自己构建install,uninstall,等完善软件使用.
 
+**makefile中的特殊变量**  
+|符号|含义|
+|-|-|
+|$@|代指目标|
+|$^|代指所有依赖|
+|$<|代指第一个依赖|
 *** 
 高级使用  
 include makefile  #依赖其他  makefile文件
