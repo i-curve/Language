@@ -8,9 +8,11 @@ set termencoding=utf-8
 "set incsearch
 
 set ts=4
+set smartindent
+set tabstop=4
 set softtabstop=4
-"set shiftwidth=4
-"set expandtab
+set shiftwidth=4
+set expandtab
 
 set autoindent
 
@@ -69,6 +71,7 @@ call plug#end()
 "Set the Map in Plug
 
 nmap ss <Plug>(easymotion-s2)
+nnoremap <leader>g :NERDTreeToggle<cr>
 nnoremap <leader>v :NERDTreeFind<cr>
 let NERDTreeShowHidden=1
 let NERDTreeIgnore=['\.git$']
@@ -103,7 +106,7 @@ let g:pymode_rope_goto_definition_bind = "<C-]>"
 let g:pymode_rope_organize_imports_bind = '<C-c>ro'
 let g:pymode_doc=1
 let g:pymode_doc_bind='K'
-let g:pymode_lint = 1
+let g:pymode_lint = 1 
 let g:pymode_lint_checkers = ['mccabe', 'pylint', 'pyflakes']
 let g:pymode_options_max_line_length=120
 "let g:pymode_run = 1
