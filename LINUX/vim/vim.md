@@ -80,17 +80,10 @@ PlugClean:清除不在列表中的插件
 
 ## 贴上自己vim配置(.vimrc):
 
-<<<<<<< HEAD
 ```bash
 "这是注释
 
 "设置行号
-=======
-```shell
-"This is the annotation
-"********************Basic setting*******************
-"Set the Row Number
->>>>>>> 53d4ad181e4bd3a19b43734c466d5131e2b00fb1
 "set number
 set termencoding=utf-8
 
@@ -105,25 +98,15 @@ set shiftwidth=4
 set expandtab
 
 set autoindent
-<<<<<<< HEAD
 "定义映射
-=======
-
-"Set the Map
->>>>>>> 53d4ad181e4bd3a19b43734c466d5131e2b00fb1
 let mapleader=","
 inoremap <leader>w <Esc>:w<cr>
 noremap <leader>w :w<cr>
 inoremap jj <Esc>
-<<<<<<< HEAD
 vnoremap jj <Esc>
 inoremap kk <Esc>:w<cr>a
 
 "这是安装插件 vim-plug
-=======
-"vnoremap jj <Esc>
-
->>>>>>> 53d4ad181e4bd3a19b43734c466d5131e2b00fb1
 "This is the plug: vim-plug
 "********************The basic pulgin****************
 call plug#begin('~/.vim/plugged')
@@ -147,14 +130,9 @@ Plug 'lfv89/vim-interestingwords'
 Plug 'tpope/vim-surround'
 
 Plug 'majutsushi/tagbar'
-<<<<<<< HEAD
 "Plug 'kannokanno/previm'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
-=======
-" Plug 'godlygeek/tabular'
-" Plug 'plasticboy/vim-markdown'
->>>>>>> 53d4ad181e4bd3a19b43734c466d5131e2b00fb1
 "******************Write code************************
 ""Formar-> neoformat
 "Plug 'sbdchd/neoformat'
@@ -172,31 +150,21 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 "PYTHON-> python-mode
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 "C++-> cland_complete
-<<<<<<< HEAD
 Plug 'xavierd/clang_complete'
-=======
-"Plug 'xavierd/clang_complete'
->>>>>>> 53d4ad181e4bd3a19b43734c466d5131e2b00fb1
 call plug#end()
 
 
 "Set the Map in Plug
 
 nmap ss <Plug>(easymotion-s2)
-<<<<<<< HEAD
 nnoremap <leader>g :NERDTreeToggle<cr>
-=======
->>>>>>> 53d4ad181e4bd3a19b43734c466d5131e2b00fb1
 nnoremap <leader>v :NERDTreeFind<cr>
 let NERDTreeShowHidden=1
 let NERDTreeIgnore=['\.git$']
 
-<<<<<<< HEAD
 " markdowm
 let g:vim_markdown_fenced_languages = ['csharp=cs','c++=cpp', 'viml=vim', 'bash=sh', 'ini=dosini','py=py']
 
-=======
->>>>>>> 53d4ad181e4bd3a19b43734c466d5131e2b00fb1
 "deoplete.nvim
 " let g:deoplete#enable_at_startup = 1
 " set completeopt-=preview
@@ -234,9 +202,5 @@ let g:pymode_options_max_line_length=120
 "let g:pymode_run_bind = '<leader>r'
 "
 "C++->clang-complete
-<<<<<<< HEAD
 let g:clang_library_path='/usr/lib/llvm-10/lib/libclang-10.so.1'
-=======
-"let g:clang_library_path='/usr/lib/llvm-3.8/lib'
->>>>>>> 53d4ad181e4bd3a19b43734c466d5131e2b00fb1
 ```

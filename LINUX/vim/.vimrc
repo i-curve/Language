@@ -1,6 +1,6 @@
-"This is the annotation
-"********************Basic setting*******************
-"Set the Row Number
+"这是注释
+
+"设置行号
 "set number
 set termencoding=utf-8
 
@@ -15,13 +15,15 @@ set shiftwidth=4
 set expandtab
 
 set autoindent
-
-"Set the Map
+"定义映射
 let mapleader=","
 inoremap <leader>w <Esc>:w<cr>
+noremap <leader>w :w<cr>
 inoremap jj <Esc>
-"vnoremap jj <Esc>
+vnoremap jj <Esc>
+inoremap kk <Esc>:w<cr>a
 
+"这是安装插件 vim-plug
 "This is the plug: vim-plug
 "********************The basic pulgin****************
 call plug#begin('~/.vim/plugged')
@@ -45,8 +47,9 @@ Plug 'lfv89/vim-interestingwords'
 Plug 'tpope/vim-surround'
 
 Plug 'majutsushi/tagbar'
-" Plug 'godlygeek/tabular'
-" Plug 'plasticboy/vim-markdown'
+"Plug 'kannokanno/previm'
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
 "******************Write code************************
 ""Formar-> neoformat
 "Plug 'sbdchd/neoformat'
@@ -64,7 +67,7 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 "PYTHON-> python-mode
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 "C++-> cland_complete
-"Plug 'xavierd/clang_complete'
+Plug 'xavierd/clang_complete'
 call plug#end()
 
 
@@ -75,6 +78,9 @@ nnoremap <leader>g :NERDTreeToggle<cr>
 nnoremap <leader>v :NERDTreeFind<cr>
 let NERDTreeShowHidden=1
 let NERDTreeIgnore=['\.git$']
+
+" markdowm
+let g:vim_markdown_fenced_languages = ['csharp=cs','c++=cpp', 'viml=vim', 'bash=sh', 'ini=dosini','py=py']
 
 "deoplete.nvim
 " let g:deoplete#enable_at_startup = 1
@@ -106,11 +112,11 @@ let g:pymode_rope_goto_definition_bind = "<C-]>"
 let g:pymode_rope_organize_imports_bind = '<C-c>ro'
 let g:pymode_doc=1
 let g:pymode_doc_bind='K'
-let g:pymode_lint = 1 
+let g:pymode_lint = 1
 let g:pymode_lint_checkers = ['mccabe', 'pylint', 'pyflakes']
 let g:pymode_options_max_line_length=120
 "let g:pymode_run = 1
 "let g:pymode_run_bind = '<leader>r'
 "
 "C++->clang-complete
-"let g:clang_library_path='/usr/lib/llvm-3.8/lib'
+let g:clang_library_path='/usr/lib/llvm-10/lib/libclang-10.so.1'
