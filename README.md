@@ -2,7 +2,7 @@
 
 # language
 
-the sumary of knowleges.
+the summary of knowledges.
 
 ***
 
@@ -10,7 +10,7 @@ the sumary of knowleges.
 
 # Introduction
 
-​	In the past few years, I have learnt many programing languages and some important knowleges. I discover that I have reached a vary strange status, my threshold. I always feel what it's missing on myself. At this memont, I know I need to slow my forwarding feets. Isn't it another kind of progress?
+​	In the past few years, I have learnt many programming languages and some important knowledges. I discover that I have reached a vary strange status, my threshold. I always feel what it's missing on myself. At this moment, I know I need to slow my forwarding feets. Isn't it another kind of progress?
 
 
 
