@@ -27,6 +27,9 @@ font:   字体
 
 **CSS初始化样式**
 ```css
+/*
+ * css 公共样式初始化
+ */
 html {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 62.5%;
@@ -39,7 +42,13 @@ body {
 * {
     box-sizing: border-box;
 }
-
+.content-box {
+	box-sizing: content-box;
+	-moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    -ms-box-sizing: content-box;
+    -o-box-sizing: content-box;
+}
 a {
     text-decoration: none;
     color: #333;
@@ -60,6 +69,9 @@ img {
     width: 100%;
 }
 
+textarea, input {
+    outline: none;
+}
 .clearfix::after{
     content: "";
     display: block;

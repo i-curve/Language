@@ -1,8 +1,6 @@
 # 编辑器
 
-
-
-## 移动：
+## 移动
 
 ```bash
 h,j,k,l移动
@@ -12,9 +10,7 @@ ctrl+u:向上翻页
 ctrl+f:向下翻页
 ```
 
-
-
-## 改:
+## 改
 
 ```bash
 i,a,o
@@ -26,35 +22,27 @@ s:删除并进入插入模式  S:删除整行并进入插入模式
 c+a/t+_:删除并进入插入模式
 ```
 
+## 查
 
-
-## 查:
-
-```
+```bash
 行中查找:
-	f_  +;(查找下一个) +,(查找上一个)
-	t_  查找到前面一个字母
-	F_
+f_  +;(查找下一个) +,(查找上一个)
+t_  查找到前面一个字母
+F_
 / ?:向下查,向上查 n/N:结果的转换
 ```
 
-
-
 ## 替换
 
-```
+```bash
 :[range]s/{pattern}/{string}/{flags(g,c,n)}
 ```
-
-
 
 ## 插件
 
 使用vim-plug插件管理器:[github上网址](https://github.com/junegunn/vim-plug)
 
 插件查找网站 [VimAwesome](https://vimawesome.com/)
-
-
 
 ```bash
 #安装管理器
@@ -76,9 +64,7 @@ PlugUpdate\PlugUpgrade::更新
 
 PlugClean:清除不在列表中的插件
 
-
-
-## 贴上自己vim配置(.vimrc):
+## 贴上自己vim配置(.vimrc)
 
 ```bash
 "这是注释
