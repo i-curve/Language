@@ -1,0 +1,143 @@
+# JS 变量基础和类型转换
+
+> 简介: 
+
+## 变量类型
+
+1. 基础类型
+
+> number,string,boolean,undefined,null, symbo(es6)
+
+2. 引用类型
+
+> object,function,array
+
+3. 可以通过typeof 查看数据的类型, 返回的类型是string
+
+>  typeof(null) 得值是 'object', 这是历史遗留问题, 用户代指空对象
+
+4. if 条件用判断为false的值有
+
+> 0, "", false, undefined, null, NaN
+
+- NaN 和任何值都不相等,包括自己本身, 只能用isNaN()函数去判断
+- null == undefined:  为true
+
+## 类型转换
+
+- 隐式类型转换
+
+> 1. \+ 符号会趋向于把类型转换为string
+> 2. \- \* / 符号会趋向于把类型转换为number
+> 3. if 里面会把最终界面转换为boolean类型
+> 4. 包装类: '123'.length , '123' 是string类型对象, 此处包装成了String()对象
+
+- 显示类型转换
+
+> Number(), String(), Boolean(): 强制把类型转换为相应的类型
+>
+> ~~undefined~~, ~~null~~: 没有改对应的转换
+
+## 函数
+
+
+
+- 箭头函数特性
+
+> this指向定义时候就确定, 不能该变
+>
+> 不能使用new 构造对象
+>
+> 没有prototype
+>
+> 没有arguments
+
+- 立即执行函数
+
+在定义的时候就执行, 防止变量污染
+
+两种定义方式:
+
+> ( function(){} ){};
+>
+> ( function(){}() );
+
+
+
+***
+
+
+
+函数定义:
+
+```js
+function test(a, b, c) {
+    console.log(test.length); // 形参个数
+    console.log(arguments);  // 实参数组
+}
+```
+
+- 函数名字
+
+> 函数名字可以让函数递归的时候使用
+
+- arguments
+
+> 函数实参
+>
+> test.length: 形参的个数
+
+- 闭包: 函数执行完成后, 但是函数的ao并没有彻底释放, 形成闭包. 和对象实例化一致
+
+> 函数返回内部的函数并保存的过程, 一定会形成闭包
+
+## 预编译过程
+
+
+
+简介: 是指js语法检测完, 程序执行之前所存在的步骤
+
+
+
+执行的步骤: 
+
+> 1. 查找所有变量的定义
+> 2. 实参复制给形参
+> 3. 寻找所有的函数
+
+> AO: active object 活动性对象, 执行上下文
+>
+> GO: global object 全局对象
+
+## 对象
+
+
+
+```
+### 3.正则表达式
+
+```
+// 定义
+var reg = /规则/
+// 方法
+reg.exec(str)// 查找位置
+reg.text(str)// 判断是否存在
+
+
+
+
+
+// js中数组可变长度, 可以不同的数值类型
+```
+
+### 5.异常
+```
+// js中只有Error错误
+// 抛出异常
+throw new Error("MESSAGE")
+// 捕获异常
+catch(e){
+    document.write("错误信息:"+e.message+"<br>")
+}
+
+```
