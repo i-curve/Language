@@ -9,8 +9,8 @@
 ## 目录
 
 - [JS](JS)
-  - [js 深度学习](js/js深度学习.md)
-- [MYSQL](mysql)
-  - [初级](mysql/初级.md)
-  - [系统级](mysql/系统级.md)
+  - [js 深度学习](JS/js深度学习.md)
+- [MYSQL](MYSQL)
+  - [初级](MYSQL/初级.md)
+  - [系统级](MYSQL/系统级.md)
 - [Python](Python)
