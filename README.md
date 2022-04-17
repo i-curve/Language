@@ -8,7 +8,7 @@ In the past few years, I have learnt many programming languages and some importa
 
 ## Web 文档
 
-网站: [study.i-curve.tk](study.i-curve.tk)
+网站: [study.i-curve.tk](https://study.i-curve.tk)
 
 ## 文档目录
 
