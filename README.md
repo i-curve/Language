@@ -8,17 +8,15 @@ In the past few years, I have learnt many programming languages and some importa
 
 ## Web 文档
 
-```bash
-study.i-curve.tk
-```
+网站: [study.i-curve.tk](study.i-curve.tk)
 
 ## 文档目录
 
-- [cmake 用法](CMAKE/README.md{target="_blank"})
-- [make 用法](MAKE/README.md{target="_blank"})
+- [cmake 用法](CMAKE/README.md)
+- [make 用法](MAKE/README.md)
 - [JS](JS)
-  - [js 深度学习](JS/js深度学习.md{target="_blank"})
-- [MYSQL](MYSQL){target="\_blank"}
-  - [初级](MYSQL/初级.md){target="\_blank"}
-  - [系统级](MYSQL/系统级.md){target="\_blank"}
-- [Python](Python){target="\_blank"}
+  - [js 深度学习](JS/js深度学习.md)
+- [MYSQL](MYSQL)
+  - [初级](MYSQL/初级.md)
+  - [系统级](MYSQL/系统级.md)
+- [Python](Python)
