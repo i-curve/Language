@@ -1,13 +1,13 @@
-theme: jekyll-theme-cayman
+# theme: jekyll-theme-cayman
 layout: post
 
-title: language
+title: "language"
 
-subtitle: 编程语言学习总结
+subtitle: "编程语言学习总结"
 
-description: "welcome" # 随便说点，描述一下
+description: "欢迎来此学习" # 随便说点，描述一下
 
-header-img: img/img.jpg
+header-img: "img/img.jpg"
 catalog: true
 
 author: i-curve
