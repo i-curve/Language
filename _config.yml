@@ -1,1 +1,15 @@
 theme: jekyll-theme-cayman
+layout: post
+
+title: language
+
+subtitle: 编程语言学习总结
+
+description: "welcome" # 随便说点，描述一下
+
+header-img: img/img.jpg
+catalog: true
+
+author: i-curve
+
+github_username: i-curve # 你的github账号
