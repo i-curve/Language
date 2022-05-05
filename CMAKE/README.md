@@ -40,7 +40,7 @@ add_executable(cmake main.cpp)
 
 ```cmake
 # 生成最终的文件
-add_library(libname ${SOURCE}) # 链接库文件
+add_library(libname [static|shared] ${SOURCE}) # 链接库文件,static静态库,shared动态库
 add_executable(cmake main.cpp) # 可执行文件
 
 # 向可执行文件中添加链接库,必须放在可执行文件后面
@@ -72,6 +72,14 @@ include_directories(include)
 aux_source_directory(src SOURCE)
 # 添加子目录
 add_subdirecotry(subdirectory_path subdirectory_name)
+
+# 生成compile_commands.json 文件,包含编译单元所执行的指令
+# 引用第三方库时vim所识别必须的文件
+set(CMAKE_EXPORT_COMPILE_COMMANDS on)
+# 文件安装路径
+set(CMAKE_INSTALL_PREFIX)
+
+install()
 ```
 
 ## **4.** 样例
