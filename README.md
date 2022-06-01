@@ -13,6 +13,7 @@ In the past few years, I have learnt many programming languages and some importa
 ## 文档目录
 
 - [cmake 用法](CMAKE/README.md)
+- [c++](C++/readme.md)
 - [make 用法](MAKE/README.md)
 - [JS](JS)
   - [js 深度学习](JS/js深度学习.md)
