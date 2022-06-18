@@ -3,13 +3,13 @@
 # CMAKE 文档
 
 - [CMAKE 文档](#cmake-文档)
-  - [**1.** 通用 CMAKE 内容](#1-通用-cmake-内容)
-  - [**2.** CMAKE 链接库内容](#2-cmake-链接库内容)
-  - [**3.** CMAKE 常用变量](#3-cmake-常用变量)
-  - [**4.** 其他 CMAKE 命令](#4-其他-cmake-命令)
-  - [**4.** 样例](#4-样例)
+  - [1. 通用 CMAKE 内容](#1-通用-cmake-内容)
+  - [2. CMAKE 链接库内容](#2-cmake-链接库内容)
+  - [3. CMAKE 常用变量](#3-cmake-常用变量)
+  - [4. 其他 CMAKE 命令](#4-其他-cmake-命令)
+  - [5. 样例](#5-样例)
 
-## **1.** 通用 CMAKE 内容
+## 1. 通用 CMAKE 内容
 
 通用 cmake 跨平台的基本内容
 
@@ -36,7 +36,7 @@ add_executable(cmake main.cpp)
 
 ```
 
-## **2.** CMAKE 链接库内容
+## 2. CMAKE 链接库内容
 
 ```cmake
 # 生成最终的文件
@@ -47,7 +47,7 @@ add_executable(cmake main.cpp) # 可执行文件
 target_link_libraries(cmain -lfmt)
 ```
 
-## **3.** CMAKE 常用变量
+## 3. CMAKE 常用变量
 
 cmake 常用的一些变量
 
@@ -62,7 +62,7 @@ set(CMAKE_EXE_LINKER_FLAGS "-static -static-libstdc++")
 
 ```
 
-## **4.** 其他 CMAKE 命令
+## 4. 其他 CMAKE 命令
 
 ```cmake
 # 指定头文件路径
@@ -82,7 +82,7 @@ set(CMAKE_INSTALL_PREFIX)
 install()
 ```
 
-## **4.** 样例
+## 5. 样例
 
 [CMakeLists.txt](./CMakeLists.txt)
 
