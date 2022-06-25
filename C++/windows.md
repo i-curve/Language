@@ -56,8 +56,6 @@ vs2022 项目配置:
 
 ![](../img/static-lib-import.png)
 
----
-
 - 动态链接库: xxx.dll
 
 组成部分: xxx.dll, xxx.lib
@@ -97,6 +95,8 @@ int main() {
 }
 ```
 
+备注: **隐式调用仍旧需要 dll 文件**
+
 需要添加库路径
 
 显示调用:
@@ -125,7 +125,10 @@ int main() {
 }
 ```
 
-扩展内容:
+查看生成的 dll 是否有效:
+dumpbin /exports testdll.dll
+
+- 扩展内容:
 
 文件生成: .dll => .def => .lib
 
