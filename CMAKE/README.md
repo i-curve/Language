@@ -39,13 +39,23 @@ add_executable(cmake main.cpp)
 ## 2. CMAKE 链接库内容
 
 ```cmake
+# 指定头文件路径
+include_directories(include)
+
+# 动态库位置
+set_target_properties(lib_name PROPERTIES OUTPUT_NAME lib_name)
+
 # 生成最终的文件
-add_library(libname [static|shared] ${SOURCE}) # 链接库文件,static静态库,shared动态库
-add_executable(cmake main.cpp) # 可执行文件
+add_library(libname [STATIC|SHARED] ${SOURCE}) # 链接库文件,static静态库,shared动态库
+
+# 可执行文件
+add_executable(cmake main.cpp)
 
 # 向可执行文件中添加链接库,必须放在可执行文件后面
 target_link_libraries(cmain -lfmt)
 ```
+
+**STATIC|SHARED 必须是大写**
 
 ## 3. CMAKE 常用变量
 
@@ -65,9 +75,6 @@ set(CMAKE_EXE_LINKER_FLAGS "-static -static-libstdc++")
 ## 4. 其他 CMAKE 命令
 
 ```cmake
-# 指定头文件路径
-include_directories(include)
-
 # 包含改文件夹下所有的文件
 aux_source_directory(src SOURCE)
 # 添加子目录
