@@ -176,13 +176,14 @@ option
 - cut 命令: 选取工具
 
 格式 cut [option] [field] [filename]  
-option:  
+option  
 -d -f: 分隔符, 去第 n 个字段  
 -c: 按照字符下标去取
 
 - read: 读取输入
 
 格式: read [option] a b  
+option  
 -s: 隐藏  
 -p: “要显示的文字”  
 -t: 倒计时  
@@ -353,31 +354,53 @@ mysql -uroot -hlocalhost -p -P3306 -Dexpress -e "select * from user;" -N -B
 
 ## VI. 安全相关命令
 
-iptables: 防火墙
+- iptables: 防火墙操作相关命令
 
-```sh
-iptables [-t table] command chain 规则 -j Action
-table:
-filter,mat,raw,mangle
-commad:
--I: 插入
--D: 删除
+格式: iptables [-t table] -I command chain 规则 -j Action
+
+table: filter,mat,raw,mangle
+
+command:  
+-I: 插入  
+-D: 删除  
 -A: 追加
-规则:
--s:源ip   -d:目的ip   -i:网卡
---sport:源端口   --dport:目标端口
+
+规则:  
+-s:源 ip -d:目的 ip -i:网卡  
+--sport:源端口 --dport:目标端口  
 -p:协议
-Action:
-ACCEPT:接受
-DROP:拒绝
+
+Action:  
+ACCEPT:接受  
+DROP:拒绝  
 REJECT:扔掉
-查看命令:
--L [chain [rulenum]]:显示链中内容
--v:显示详细信息
--n:以点分十进制显示
+
+查看命令:  
+-n:以点分十进制显示  
+-v:显示详细信息  
+-L [chain [rulenum]]:显示链中内容  
+--line-number: 显示规则的编号, 用于删除规则链
+
+```bash
+iptables -nvL --line-number  # 查看当前防火墙的规则
+
+iptables -t filter -I INPUT -s 192.168.1.2 -j DROP # 禁止 192.168.1.2 的主机流量进来
+iptables -D INPUT 1 # 删除 INPUT 链的第一条规则
+
+# 禁止别的 pc ping 同自己
+iptables -A INPUT -p icmp --icmp-type echo-request -j DROP # 停止 icmp-request 的入口流量
+iptables -I OUTPUT -p icmp --icmp-type [0|echo-reply] -j DROP # 停止 icmp-reply 的出口流量
+
+# 禁止自己 ping 别的主机
+iptables -A INPUT -p icmp --icmp-type echo-reply -J DROP # 禁用 echo-reply 的入口流量
+iptables -I OUTPUT -p icmp --icmp-type [8|echo-request] -j DROP # 禁用 echo-request 的出口流量
 ```
 
-- notes:iptables 的四表五链
+iptables 的四表五链
 
-  - 四表: filter(默认过滤表),nat,raw,mongle
-  - 五链: prerouting,**Input,Forward,Output**(常用), prerouting
+四表: filter(默认过滤表),nat,raw,mongle  
+五链: prerouting,**Input,Forward,Output**(常用), prerouting
+
+扩展 icmp 消息类型:  
+echo-reply: 0
+echo-request: 8
