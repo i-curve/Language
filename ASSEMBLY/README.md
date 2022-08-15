@@ -2,6 +2,14 @@
 
 主要说明 x86 架构 32 程序的汇编
 
+- [assembly 学习](#assembly-学习)
+  - [I. 8 个通用寄存器](#i-8-个通用寄存器)
+  - [II. 7 中 cpu 寻址方式](#ii-7-中-cpu-寻址方式)
+  - [III. 基础指令](#iii-基础指令)
+  - [IV. eflag 寄存器和 jcc 指令](#iv-eflag-寄存器和-jcc-指令)
+  - [V. 高级指令](#v-高级指令)
+  - [VI. 64 位程序指令](#vi-64-位程序指令)
+
 ## I. 8 个通用寄存器
 
 eax,ebx,ecx,edx,esi,edi,esp,ebp
