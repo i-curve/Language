@@ -34,9 +34,9 @@ cmake_minimum_required(VERSION 3.10)
 ```
 
 指定所需要的 cmake 最低版本
-其中:
-版本信息会存在 PROJECT_VERSION 变量中
-主版本信息存在 PROJECT_VERSION_MAJOR 变量中
+其中:  
+版本信息会存在 PROJECT_VERSION 变量中  
+主版本信息存在 PROJECT_VERSION_MAJOR 变量中  
 次版本信息存在 PROJECT_VERSION_MINOR 变量中
 
 ## II. project 指令
@@ -45,7 +45,7 @@ cmake_minimum_required(VERSION 3.10)
 project(demo VERSION 1.2 LANGUAGE CXX)
 ```
 
-project(projectName [VERSION 1.2] [LANGUAGE CXX]): 指定项目名称及其相应信息, 一个项目有一个 project
+project(projectName [VERSION 1.2] [LANGUAGE CXX]): 指定项目名称及其相应信息, 一个项目有一个 project  
 VERSION、LANGUAGE 连个均为可选项
 
 ## III. message 指令
@@ -63,7 +63,7 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
 option(DATE_ENABLE "hello" OFF)
 ```
 
-set(variable value): 设置变量的值，既可以是内置变量，也可以是自定义变量
+set(variable value): 设置变量的值，既可以是内置变量，也可以是自定义变量  
 option(variable "msg" ON/OFF): 设置变量开关, 可以在后面用于 if 条件判断
 
 ## V. configure_file 指令
@@ -85,9 +85,9 @@ add_library(demo1 STATIC main1.cpp)
 add_library(demo2 SHARED main2.cpp)
 ```
 
-生成目标文件
-add_executable: 可执行文件
-add_library: STATIC 静态链接库文件
+生成目标文件  
+add_executable: 可执行文件  
+add_library: STATIC 静态链接库文件  
 add_library: SHARED 动态链接库文件
 
 ## VII. 子目录
@@ -106,7 +106,7 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 target_include_directories(demo [PUBLIC] ${CMAKE_SOURCE_DIR}/include)
 ```
 
-include_directories: 为所有 target 添加头文件所搜路径
+include_directories: 为所有 target 添加头文件所搜路径  
 target_include_directories: 进位指定 target 添加头文件搜索路径
 
 ## IX. 动态库指令
@@ -116,7 +116,7 @@ set_target_properties(lib_name PROPERTIES OUTPUT_NAME lib_name)
 target_link_libraries(demo fmt)
 ```
 
-set_target_properties: 设定链接库搜索路径
+set_target_properties: 设定链接库搜索路径  
 target_link_libraries: 为指定目标添加链接时动态库, 必须放在生成 target 后面
 
 ## X. install 指令
@@ -128,9 +128,9 @@ install(PROGRAMS demo DESTINATION bin)
 install(DIRECTORY demo DESTINATION src)
 ```
 
-TARGETS: 目标文件
-FILES: doc 等非可执行文件
-PROGRAMS: 非目标可执行文件, 如 shell 脚本
+TARGETS: 目标文件  
+FILES: doc 等非可执行文件  
+PROGRAMS: 非目标可执行文件, 如 shell 脚本  
 DIRECTORY: 目录
 
 默认的安装位置是/usr/local 下的相对目录, 可以指定绝对路径
