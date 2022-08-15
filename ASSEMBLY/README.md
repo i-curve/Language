@@ -1,0 +1,73 @@
+# assembly 学习
+
+主要说明 x86 架构 32 程序的汇编
+
+## I. 8 个通用寄存器
+
+eax,ebx,ecx,edx,esi,edi,esp,ebp
+
+eip: cpu 之执行指令的位置
+
+ebp,esp: 程序的栈空间的栈低地址和栈顶地址(栈空间为从高地址向低地址扩充)
+
+## II. 7 中 cpu 寻址方式
+
+- 1. 立即数寻址
+     直接操作立即数: mov eax, 0x1; (0x1 即为立即数)
+- 2. 寄存器寻址
+     操作寄存器的值: eax
+- 3. 直接寻址
+     直接用立即数当地址: mov eax, dword ptr [0x0f34d04]; (0x0f34d04 即为立即数)
+- 4. 寄存器间接寻址
+     把寄存器的值当地址,寻址: mov ebx, dword ptr [eax]; (eax 即为寄存器)
+- 5. 寄存器相对寻址
+     寄存器的值加上偏移: mov ebx, dword ptr [eax+0x4];
+- 6. 相对基址变址寻址
+     mov eax, dword ptr [ebx+ecx+0x8];
+- 7. 带比例存储器寻址
+
+## III. 基础指令
+
+push, pop, pushad, popad, mov
+call,ret,retn
+
+lea eax, str1;
+lea 指令: 用于把 str1 的地址放到 eax 寄存器
+
+函数调用约定: 函数的参数是从右向左通过 push 进行传递
+
+32 位程序有 3 中函数调用约定: \_\_cdcall, \_\_stdcall, \_\_fastcall
+\_\_cdcall: 函数调用执行完(retn), 会调用 add 0x[参数大小];去进行平栈
+\_\_stdcall: 函数调用完执行的 ret 后面会加上参数空间的大小, 所以后面不会再进行平栈了
+\_\_fastcall: 前两个参数会放到寄存器里面
+
+## IV. eflag 寄存器和 jcc 指令
+
+jmp 指令: 无条件跳转指令
+cmp 比较执行: 是指会把两个数相减, 并设置 ZF 寄存器的值
+
+| eflag 指令 | OF         | SF         | ZF         | AF         | PF             | CF         |
+| ---------- | ---------- | ---------- | ---------- | ---------- | -------------- | ---------- |
+| 描述       | 溢出寄存器 | 符号寄存器 | 零位寄存器 | 辅助寄存器 | 奇偶校验寄存器 | 进位寄存器 |
+| jcc 指令   | JO/JNO     | JS/JNS     | JE/JNE     |            | JP/JNP         | JB/JNB     |
+
+## V. 高级指令
+
+逻辑运算:
+and, or, xor, not
+
+算术运算:
+add,sub,mul,imul,div,idiv,inc,dec
+
+mul,div: 无符号运算
+imul,idiv: 有符号运算
+
+## VI. 64 位程序指令
+
+1.  64 位程序的所有寄存器以 r 开头, 如 rax
+    rax,rbx,rcx,rdx,rsp,rbp,rsi,rbi,rip
+
+2.  64 为程序多了 R8~R15 8 个通用寄存器
+
+3.  64 位程序删除了 3 中函数调用约定, 只剩下了一种类似\_\_fastcall 的函数调用  
+    前 4 个参数方到 rcx,rdx,r8,r9 寄存器中, 剩下参数通过 push 放到栈内
