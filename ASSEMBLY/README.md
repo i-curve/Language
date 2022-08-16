@@ -4,7 +4,7 @@
 
 - [assembly 学习](#assembly-学习)
   - [I. 8 个通用寄存器](#i-8-个通用寄存器)
-  - [II. 7 中 cpu 寻址方式](#ii-7-中-cpu-寻址方式)
+  - [II. 7 种 cpu 寻址方式](#ii-7-种-cpu-寻址方式)
   - [III. 基础指令](#iii-基础指令)
   - [IV. eflag 寄存器和 jcc 指令](#iv-eflag-寄存器和-jcc-指令)
   - [V. 高级指令](#v-高级指令)
@@ -18,7 +18,7 @@ eip: cpu 之执行指令的位置
 
 ebp,esp: 程序的栈空间的栈低地址和栈顶地址(栈空间为从高地址向低地址扩充)
 
-## II. 7 中 cpu 寻址方式
+## II. 7 种 cpu 寻址方式
 
 - 1. 立即数寻址
 
@@ -51,19 +51,19 @@ ebp,esp: 程序的栈空间的栈低地址和栈顶地址(栈空间为从高地�
 push, pop, pushad, popad, mov
 call,ret,retn
 
-lea eax, str1;  
+lea eax, str1;
 lea 指令: 用于把 str1 的地址放到 eax 寄存器
 
 函数调用约定: 函数的参数是从右向左通过 push 进行传递
 
-32 位程序有 3 中函数调用约定: \_\_cdcall, \_\_stdcall, \_\_fastcall  
-\_\_cdcall: 函数调用执行完(retn), 会调用 add 0x[参数大小];去进行平栈  
-\_\_stdcall: 函数调用完执行的 ret 后面会加上参数空间的大小, 所以后面不会再进行平栈了  
+32 位程序有 3 中函数调用约定: \_\_cdcall, \_\_stdcall, \_\_fastcall
+\_\_cdcall: 函数调用执行完(retn), 会调用 add 0x[参数大小];去进行平栈
+\_\_stdcall: 函数调用完执行的 ret 后面会加上参数空间的大小, 所以后面不会再进行平栈了
 \_\_fastcall: 前两个参数会放到寄存器里面
 
 ## IV. eflag 寄存器和 jcc 指令
 
-jmp 指令: 无条件跳转指令  
+jmp 指令: 无条件跳转指令
 cmp 比较执行: 是指会把两个数相减, 并设置 ZF 寄存器的值
 
 | eflag 指令 | OF         | SF         | ZF         | AF         | PF             | CF         |
@@ -73,13 +73,13 @@ cmp 比较执行: 是指会把两个数相减, 并设置 ZF 寄存器的值
 
 ## V. 高级指令
 
-逻辑运算:  
+逻辑运算:
 and, or, xor, not
 
-算术运算:  
+算术运算:
 add,sub,mul,imul,div,idiv,inc,dec
 
-mul,div: 无符号运算  
+mul,div: 无符号运算
 imul,idiv: 有符号运算
 
 ## VI. 64 位程序指令
@@ -89,5 +89,5 @@ imul,idiv: 有符号运算
 
 2.  64 为程序多了 R8~R15 8 个通用寄存器
 
-3.  64 位程序删除了 3 中函数调用约定, 只剩下了一种类似\_\_fastcall 的函数调用  
+3.  64 位程序删除了 3 中函数调用约定, 只剩下了一种类似\_\_fastcall 的函数调用
     前 4 个参数方到 rcx,rdx,r8,r9 寄存器中, 剩下参数通过 push 放到栈内
