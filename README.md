@@ -15,9 +15,9 @@ In the past few years, I have learnt many programming languages and some importa
 - [makefile](MAKE/README.md)
 - [js](JS)
   - [js 深度学习](JS/js深度学习.md)
-- [database](database)
-  [mysql](DATABASE/MYSQL/README.md)
-  [sqlite](DATABASE/SQLITE/README.md)
+- [database](database)  
+  [mysql 数据库](DATABASE/MYSQL/README.md)  
+  [sqlite 数据库](DATABASE/SQLITE/README.md)
 - [Python](Python)
 
 ## Web 文档
