@@ -1,8 +1,15 @@
 # SQLITE 数据库
 
+- [SQLITE 数据库](#sqlite-数据库)
+  - [I. 命令](#i-命令)
+  - [II. 嵌入 c 语言](#ii-嵌入-c-语言)
+    - [下载安装](#下载安装)
+    - [概念](#概念)
+  - [III. 使用 c++库](#iii-使用-c库)
+
 sqlite 是一个免费、开源的轻量级数据库，是一个进程内的数据库。无服务器，自给自足。
 
-## 命令
+## I. 命令
 
 ```shell
 # 打开database.db 数据库 默认example.db
@@ -11,9 +18,29 @@ sqlite3 database.db
 .quit  # 退出数据库
 ```
 
+- sqlite3 操作
+
+以.开头的命令, 结尾没有;
+
+```sqlite3
+.help # 获取帮助
+
+.quit  # 退出数据库
+
+open file.db  # 打开file里面的数据库
+
+.mode tab # 分割符
+
+.nullvalue "NULL" # 设定空值显示方式
+
+.header on | off # 是否显示标题
+```
+
+- 数据库操作
+
 正常的 DML 语法
 
-## 嵌入 c 语言
+## II. 嵌入 c 语言
 
 ### 下载安装
 
@@ -151,6 +178,6 @@ int main() {
 }
 ```
 
-## 使用 c++库
+## III. 使用 c++库
 
 [库地址: https://github.com/SRombauts/SQLiteCpp](https://github.com/SRombauts/SQLiteCpp)
