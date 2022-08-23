@@ -8,14 +8,16 @@ In the past few years, I have learnt many programming languages and some importa
 
 ## 文档目录
 
+- [assembly 用法](ASSEMBLY/README.md)
+- [bash 用法](BASH/README.md)
 - [cmake 用法](CMAKE/README.md)
 - [c++](C++/readme.md)
-- [make 用法](MAKE/README.md)
-- [JS](JS)
+- [makefile](MAKE/README.md)
+- [js](JS)
   - [js 深度学习](JS/js深度学习.md)
-- [MYSQL](MYSQL)
-  - [初级](MYSQL/初级.md)
-  - [系统级](MYSQL/系统级.md)
+- [database](database)
+  [mysql](DATABASE/MYSQL/README.md)
+  [sqlite](DATABASE/SQLITE/README.md)
 - [Python](Python)
 
 ## Web 文档
