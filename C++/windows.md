@@ -125,19 +125,18 @@ int main() {
 }
 ```
 
-查看生成的 dll 是否有效:
-dumpbin /exports testdll.dll
-
 - 扩展内容:
 
 文件生成: .dll => .def => .lib
 
-```cmd
+```powershell
 # 打开vs终端, 并进入目录
+## 查看生成的 dll 是否有效(查看导出函数):
+dumpbin /exports testdll.dll
 
-# dll => def
-dumpbin /exports test.dll > test.def
+## dll => def
+gender test.dll
 
-# def => lib
+## def => lib
 lib /def:test.def /machine:X64 /out:test.lib
 ```

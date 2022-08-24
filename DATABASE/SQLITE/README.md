@@ -34,11 +34,15 @@ open file.db  # 打开file里面的数据库
 .nullvalue "NULL" # 设定空值显示方式
 
 .header on | off # 是否显示标题
+
+.schema [table] # 查看表信息
 ```
 
 - 数据库操作
 
 正常的 DML 语法
+
+sqlite 主键自增需要设置为 INTEGER PRIMARY KEY, 类型只能用 INTEGER
 
 ## II. 嵌入 c 语言
 
@@ -58,7 +62,17 @@ tar -zxvf ${下载文件名字}
 
 - windows:
 
-直接贴上 sqlite3.h 头文件,并把下载 dll 文件
+直接贴上 sqlite3.h 头文件,并把下载 dll 文件  
+动态链接库生成.lib 文件
+
+```powershell
+# 生成def文件, 从.dll文件导出表
+## 如果安装了mingw-64自带下面命令
+gendef sqlite3.dll
+
+# 生成 .lib文件
+lib /def:sqlite3.def /machine:x64 /out:sqlite3.lib
+```
 
 ### 概念
 
