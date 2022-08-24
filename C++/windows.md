@@ -1,8 +1,25 @@
 # c++ windows 相关编程
 
+- [c++ windows 相关编程](#c-windows-相关编程)
+  - [I. 程序入口程序](#i-程序入口程序)
+  - [II. 链接库](#ii-链接库)
+  - [III. 内联汇编](#iii-内联汇编)
+  - [IV. 控制台编程](#iv-控制台编程)
+  - [V. 窗口编程](#v-窗口编程)
+  - [VI. MFC 编程](#vi-mfc-编程)
+
 程序与 windows 系统接口进行交互编程
 
-## 链接库
+## I. 程序入口程序
+
+windows 程序分为控制台程序(console), 和窗口程序
+
+控制台程序默认入口函数为 main (入口点 mainCTRStartup)。  
+窗口程序的默认入口函数为 WinMain (入口点 WinMainCRTStartup)
+
+程序入口点可以修改既选择 main 函数为主的窗口程序, 通常可以用在 qt 项目内(main 入口函数)
+
+## II. 链接库
 
 > 程序的链接库库可以扩展到编写的程序中, 一种是可以集成到编译后的 exe 程序总, 另一种是在程序运行的时候动态加载, 调链接库的内容
 
@@ -140,3 +157,48 @@ gender test.dll
 ## def => lib
 lib /def:test.def /machine:X64 /out:test.lib
 ```
+
+## III. 内联汇编
+
+- \_\_asm 指定内联汇编语句;
+
+```c++
+// 内联汇编调用 MessageBoxA 函数
+char msg[] = "hello world";
+char title[] = "title";
+// 从右向左push 参数
+__asm {
+    push 0;
+    lea eax, title;
+    push eax;
+    lea eax, msg;
+    push eax;
+    push 0;
+    call MessageBoxA;
+}
+```
+
+- 函数内联汇编
+
+\_\_declspec(naked) 修饰的函数, 内部编译器不会添加汇编代码, 需要手动指定
+
+```c++
+void __declspec(naked) Test() {
+    __asm {
+        push 0;
+        push 0;
+        push 0;
+        push 0;
+        call MessageBoxA;
+        ret;
+    }
+}
+```
+
+## IV. 控制台编程
+
+- 进程控制
+
+## V. 窗口编程
+
+## VI. MFC 编程
