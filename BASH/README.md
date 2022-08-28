@@ -32,11 +32,12 @@ shell 的数组默认下标从 0 开始, awk 从 1 开始
 
 ```bash
 res=$((3+4))
-res=`expr 5+3`
+res=`expr 5 + 3`
 let res=5+3
 res=$(echo "scale=0;7/2" | bc)
 ```
 
+expr 符号两边有空格  
 只有 bc 可以进行浮点数计算, 其他的计算都会报错  
 bc 的 scale 代表最终结果的浮点数精度, 默认为 0 表示整数
 
@@ -287,7 +288,7 @@ printf "VSZ_SUM:%.1fM,RSS_SUM:%.3fM\n",vs/1024,rs/1024
 awk 内置变量  
 FS: 文件分隔符  
 RS: 行分割符  
-NF: 字符安个数  
+NF: 字符段个数  
 NR: 行号
 
 $0: 当前行  
@@ -309,7 +310,8 @@ gsub(/str/, str, variable): 替换 variable 中的 str 字符串为 str, 并返�
 格式: mysql -uroot -hlocalhost -ppassword -Pport -Ddatabase [option]
 -e "mysql 命令"  
 option  
--D: 去掉表格字段名  
+-D: 数据库名字
+-N: 去掉表格字段名  
 -B: 去掉 | 分隔符
 
 ```bash
@@ -358,7 +360,7 @@ mysql -uroot -hlocalhost -p -P3306 -Dexpress -e "select * from user;" -N -B
 
 格式: iptables [-t table] -I command chain 规则 -j Action
 
-table: filter,mat,raw,mangle
+table: filter,nat,raw,mangle
 
 command:  
 -I: 插入  
@@ -366,7 +368,7 @@ command:
 -A: 追加
 
 规则:  
--s:源 ip -d:目的 ip -i:网卡  
+-s:源 ip -d:目的 ip -i:入口网卡 -o: 出口网卡  
 --sport:源端口 --dport:目标端口  
 -p:协议
 
@@ -399,7 +401,7 @@ iptables -I OUTPUT -p icmp --icmp-type [8|echo-request] -j DROP # 禁用 echo-re
 iptables 的四表五链
 
 四表: filter(默认过滤表),nat,raw,mongle  
-五链: prerouting,**Input,Forward,Output**(常用), prerouting
+五链: prerouting,**Input,Forward,Output**(常用), postrouting
 
 扩展 icmp 消息类型:  
 echo-reply: 0

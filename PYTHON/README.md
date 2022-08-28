@@ -39,11 +39,14 @@ a is b  # True
 """
 ```
 
+python 数据内存模型
+![内存模型](../image/../img/python-memorymodel.png)
+
 ## I. 数据类型
 
 - 基本数据类型
 
-int, float, str: 整形、浮点数、字符串
+int, float, str, bool: 整形、浮点数、字符串, boolean 类型
 
 python 内整数超过数据类型后会自动变为大整数, 因此没有范围边界限制
 
@@ -89,7 +92,9 @@ num.index(5) # 输出列表内元素为 5 的第一个元素的下标
 0 in num # 判断0 是否在列表内
 ```
 
-tuple 类似 list
+tuple 类似 list(不可修改)
+
+只有 count, index 两个方法
 
 - 非序列元素
 
@@ -113,9 +118,6 @@ st1 ^ st2 # 取st1 和st2 内独有的元素
 ```
 
 dict 操作
-keys(),values()
-
-.items():元组形式返回
 
 ```python
 dt = {'a': 12,'b': 13}
@@ -163,7 +165,19 @@ for k, v in dy.items():
 
 - 函数
 
+```python
+def sum(a, b):
+  return a + b
+```
+
 - 类
+
+```python
+class Base:
+  def __init__(self, a, b):
+    self.a = a
+    self.b = b
+```
 
 ## III. os 和 sys 模块
 
