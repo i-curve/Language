@@ -1,4 +1,4 @@
-# HTML 学习
+# HTML5 doc
 
 > 简介: html 标签及使用规范
 
@@ -63,6 +63,18 @@
 <a href="https://baidu.com">message</a>
 target="_black" 会在新的窗口中打开链接,默认本窗口
 name: 锚,跳转到页面内固定的id命名位置
+```
+
+## 音频操作
+
+```
+// 1.音频
+<audio src="" control="controls">
+您的播放器不支持改类型文件
+</audio>
+<video src="" control="controls">
+您的浏览器不支持该类型的文件
+</video>
 ```
 
 ## 规范
