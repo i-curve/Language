@@ -42,11 +42,11 @@ cmake_minimum_required(VERSION 3.10)
 ## II. project 指令
 
 ```cmake
-project(demo VERSION 1.2 LANGUAGE CXX)
+project(demo VERSION 1.2 LANGUAGES CXX)
 ```
 
-project(projectName [VERSION 1.2] [LANGUAGE CXX]): 指定项目名称及其相应信息, 一个项目有一个 project  
-VERSION、LANGUAGE 连个均为可选项
+project(projectName [VERSION 1.2] [LANGUAGES CXX]): 指定项目名称及其相应信息, 一个项目有一个 project  
+VERSION、LANGUAGES 连个均为可选项
 
 ## III. message 指令
 
@@ -93,7 +93,7 @@ add_library: SHARED 动态链接库文件
 ## VII. 子目录
 
 ```cmake
-aux_source_directory(src SOURCE)
+aux_source_directory(dir VARIABLE)
 add_subdirectory(subdir [name])
 ```
 
