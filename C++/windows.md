@@ -7,6 +7,7 @@
   - [IV. 控制台编程](#iv-控制台编程)
   - [V. 窗口编程](#v-窗口编程)
   - [VI. MFC 编程](#vi-mfc-编程)
+  - [VII. 乱码问题](#vii-乱码问题)
 
 程序与 windows 系统接口进行交互编程
 
@@ -202,3 +203,88 @@ void __declspec(naked) Test() {
 ## V. 窗口编程
 
 ## VI. MFC 编程
+
+## VII. 乱码问题
+
+- 乱码缘由
+
+win32 api 由于历史遗留导致了许许多都的问题, 乱码就是其中之一.
+
+win32 api 有两个版本, A 版本(对应多字节)和 W 版本(对应 unicode).
+
+导致乱码的问题有:
+
+1. 控制台环境
+2. 系统语言环境(系统选择地区以及是否勾选 utf8 选项)
+3. 窗口环境
+4. 多字节和 unicode 转换
+
+- 控制台乱码
+
+通过设置控制台语言环境解决
+
+```c++
+/// <summary>
+/// setlocale 设置程序选择运行环境(控制台程序)
+/// </summary>
+/// <returns></returns>
+setlocale(LC_ALL, "en_US.UTF-8");
+// 可用的选项有
+// chs,
+```
+
+- 窗口乱码
+
+窗口乱码一般和多字节与 unicode 字符转换有关
+
+```c++
+#include <atlstr.h>
+
+/// <summary>
+/// unicode 字符到多字节转换
+/// </summary>
+/// <param name="srcstrW"></param>
+/// <returns></returns>
+string CStringW2string(CString srcstrW) {
+    int dBufSize = WideCharToMultiByte(CP_OEMCP, 0, srcstrW, -1, NULL, 0, NULL, FALSE);
+    char *pBuf = new char[dBufSize + 1];
+    memset(pBuf, 0, dBufSize + 1);
+    WideCharToMultiByte(CP_OEMCP, 0, srcstrW, -1, pBuf, dBufSize, NULL, FALSE);
+    pBuf[dBufSize] = '\0';
+    string tmpstr = pBuf;
+    delete pBuf;
+    pBuf = NULL;
+    return tmpstr;
+}
+
+/// <summary>
+/// char2CStringW 多字节到unicode转换
+/// </summary>
+/// <param name="pstr"></param>
+/// <returns></returns>
+CStringW char2CStringW(const char *pstr) {
+    int dBufSize = MultiByteToWideChar(CP_UTF8, 0, pstr, -1, NULL, 0);
+    WCHAR *pBuf = new WCHAR[dBufSize + 1];
+    memset(pBuf, 0, dBufSize + 1);
+    MultiByteToWideChar(CP_UTF8, 0, pstr, -1, pBuf, dBufSize);
+    pBuf[dBufSize] = '\0';
+    CStringW tmpstrW = pBuf;
+    delete pBuf;
+    return tmpstrW;
+}
+
+```
+
+**通过 CStringA, CStringW 进行字符转换, 不能跨电脑, 不好使**
+**通过 CA2W, CW2A 不好使**
+
+- 程序程序编写规范
+
+控制台程序
+
+1. 采用 setlocale() 函数进行具体 pc 具体编译
+
+窗口程序
+
+1. 程序采用 unicode 规范
+2. 通过多字节和 unicode 转换函数进行处理
