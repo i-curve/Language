@@ -138,10 +138,13 @@ DIRECTORY: 目录
 ## XI. CMAKE 常用变量
 
 ```cmake
-# EXECUTABLE_OUTPUT_PATH 最终生成可执行文件的路径
 # PROJECT_SOURCE_DIR 项目源码路径
 # PROJECT_BINARY_DIR cmake执行路径
+
+# EXECUTABLE_OUTPUT_PATH 最终生成可执行文件的路径
 set(EXECUTABLE_OUTPUT_PATH  ${PROJECT_SOURCE_DIR}/bin)
+# LIBRARY_OUTPUT_PATH 最终生成链接库文件路径
+set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
 # CMAKE_EXE_LINKER_FLAGS 全静态链接编译
 set(CMAKE_EXE_LINKER_FLAGS "-static -static-libstdc++")
