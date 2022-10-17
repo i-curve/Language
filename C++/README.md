@@ -6,11 +6,12 @@
     - [原始字符串](#原始字符串)
   - [2. 运行期强化](#2-运行期强化)
     - [智能指针](#智能指针)
-    - [3. 模板编程](#3-模板编程)
+  - [3. 模板编程](#3-模板编程)
   - [4. 标准库学习](#4-标准库学习)
     - [通用方法](#通用方法)
     - [string 学习](#string-学习)
     - [tuple 学习](#tuple-学习)
+    - [chrono 学习](#chrono-学习)
   - [5. boost 库学习](#5-boost-库学习)
     - [asio 库学习](#asio-库学习)
     - [beast 库学习](#beast-库学习)
@@ -43,7 +44,7 @@ const char* str = R"("Hello, world!")";
 
 ### 智能指针
 
-### 3. 模板编程
+## 3. 模板编程
 
 ## 4. 标准库学习
 
@@ -71,6 +72,56 @@ std::string str("hello");
 ### tuple 学习
 
 元组
+
+### chrono 学习
+
+MSVC 已经支持 C++20 的所有特性, 但其他不支持
+
+- MSVC 直接只用 format
+
+```c++
+#include <iostream>
+#include <fstream>
+#include <cerrno>
+#include <chrono>
+using namespace std;
+
+int main() {
+    chrono::time_point point1 = chrono::system_clock::now();
+    cout << point1 << endl;
+    cout << chrono::time_point_cast<chrono::seconds>(point1) << endl;
+    cout << format("time is: {}\n", chrono::time_point_cast<chrono::seconds>(point1));
+    chrono::time_point<chrono::system_clock, chrono::seconds> point2;
+    auto result = chrono::parse("2022-07-11 22:34:50", point2);
+    // cout << result << endl;
+    cout << format("point2: {}\n", point2);
+    return 0;
+}
+
+```
+
+- GCC 知识 fmt 库替代
+
+```c++
+#include <fmt/core.h>
+#include <fmt/chrono.h>
+#include <chrono>
+#include <iostream>
+using namespace std;
+
+int main() {
+    chrono::time_point point1 = chrono::system_clock::now();
+    cout << fmt::format("point1: {}\n", point1);
+    cout << fmt::format("point1-minute: {}\n",
+                        chrono::time_point_cast<chrono::minutes>(point1));
+    fmt::print("{:%Y-%m-%d %H:%M}", point1);
+    // cout << point1 << endl;
+    cout << "-----" << endl;
+    chrono::time_point<chrono::system_clock, chrono::seconds> point2;
+    auto result = chrono::parse("2022-07-11 22:34:50", point2);
+    return 0;
+}
+```
 
 ## 5. boost 库学习
 

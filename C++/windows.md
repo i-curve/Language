@@ -20,6 +20,14 @@ windows 程序分为控制台程序(console), 和窗口程序
 
 程序入口点可以修改既选择 main 函数为主的窗口程序, 通常可以用在 qt 项目内(main 入口函数)
 
+- 通过预编译指令修改
+
+```c++
+#gragma comment(linker, "/subsystem:windows /entry:mainCRTStartup")
+
+#pragma comment(linker, "/subsystem:console /entry:WinMainCRTStartup")
+```
+
 ## II. 链接库
 
 > 程序的链接库库可以扩展到编写的程序中, 一种是可以集成到编译后的 exe 程序总, 另一种是在程序运行的时候动态加载, 调链接库的内容
@@ -152,14 +160,16 @@ int main() {
 ## 查看生成的 dll 是否有效(查看导出函数):
 dumpbin /exports testdll.dll
 
-## dll => def
-gender test.dll
+## dll => def (minGW 提供的工具)
+gendef test.dll
 
 ## def => lib
 lib /def:test.def /machine:X64 /out:test.lib
 ```
 
 ## III. 内联汇编
+
+MSVC 只能进行 32 位程序内联汇编
 
 - \_\_asm 指定内联汇编语句;
 
@@ -230,7 +240,11 @@ win32 api 有两个版本, A 版本(对应多字节)和 W 版本(对应 unicode)
 /// <returns></returns>
 setlocale(LC_ALL, "en_US.UTF-8");
 // 可用的选项有
-// chs,
+// English_United States.utf8
+// English_United States.gbk
+// Chinese_China.utf8
+// Chinese_China.gbk
+// chs
 ```
 
 - 窗口乱码
@@ -288,3 +302,5 @@ CStringW char2CStringW(const char *pstr) {
 
 1. 程序采用 unicode 规范
 2. 通过多字节和 unicode 转换函数进行处理
+
+[推荐阅读文章 http://www.fmddlmyy.cn/text7.html](http://www.fmddlmyy.cn/text7.html)
