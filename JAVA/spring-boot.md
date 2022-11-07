@@ -132,6 +132,64 @@ public class UserController {
 curl -X POST "http://localhost:8000/users"
 ```
 
+> @RequestMapping 注解
+
+```java
+// Rest 注解
+// @RequestMapping(value = "/users",method = RequestMethod.GET)
+// value = 请求路径
+// method = 请求方法
+// consumes = 请求媒体类型 Content-Type 例: application/json
+// produces = 响应媒体类型
+// params, headers = 请求的参数和请求的值
+
+// 路由映射
+// 简单名字, 通配符 *
+@RestController
+public class TestController {
+
+    @PostMapping("/test")
+    public Test createT(String name, String flag) {
+        Test t = new Test(name, flag);
+        System.out.println("创建了test: " + t);
+        return t;
+    }
+
+    @DeleteMapping("/test/{id}")
+    public boolean deleteT(@PathVariable int id) {
+        System.out.println("删除了" + id + "的test");
+        return true;
+    }
+
+    @PutMapping("/test/put/{id}")
+    public String updateTt(UpdateTestParam t) {
+        return t.toString();
+    }
+
+    @PutMapping("/test/{id}")
+    public boolean updateT(UpdateTestParam T) {
+//        System.out.println(name+flag);
+        System.out.println("更新id=" + "的值为: " + T);
+        return true;
+    }
+
+    @GetMapping("/test/{id}")
+    public Test getT(@PathVariable int id) {
+        Test t = new Test(id, "xxx", "yyy");
+        System.out.println("获取了" + t);
+        return t;
+    }
+
+    @GetMapping("/test")
+    public List<Test> listT() {
+        List<Test> ts = new ArrayList<>();
+        ts.add(new Test("aaa", "a"));
+        ts.add(new Test("bbb", "b"));
+        return ts;
+    }
+}
+```
+
 ## IV. 配置拦截器中间件
 
 配置登录拦截器文件
