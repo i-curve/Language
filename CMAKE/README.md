@@ -4,11 +4,11 @@
 
 - [CMAKE doc](#cmake-doc)
   - [说明](#说明)
-  - [I. cmake_minimum_required 指令](#i-cmake_minimum_required-指令)
+  - [I. cmake\_minimum\_required 指令](#i-cmake_minimum_required-指令)
   - [II. project 指令](#ii-project-指令)
   - [III. message 指令](#iii-message-指令)
   - [IV. set，option 指令](#iv-setoption-指令)
-  - [V. configure_file 指令](#v-configure_file-指令)
+  - [V. configure\_file 指令](#v-configure_file-指令)
   - [VI. 生成 target](#vi-生成-target)
   - [VII. 子目录](#vii-子目录)
   - [VIII. 头文件搜索路径](#viii-头文件搜索路径)
@@ -154,6 +154,17 @@ set(CMAKE_INSTALL_PREFIX)
 # 引用第三方库时vim所识别必须的文件
 set(CMAKE_EXPORT_COMPILE_COMMANDS on)
 ```
+
+| 名称                          | 范围             | 作用                                                           |
+| ----------------------------- | ---------------- | -------------------------------------------------------------- |
+| EXECUTABLE_OUTPUT_PATH        | dir              | 设置最终生成可执行文件路径                                     |
+|                               |                  |
+| CMAKE_EXPORT_COMPILE_COMMANDS | on\|off          | 是否生成 compile.json 文件                                     |
+| CMAKE_BUILD_TYPE              | Debug \| Release | 设置可执行文件的模式,debug 或者 release 模式, 和是否按 F5 无关 |
+| PROJECT_SOURCE_DIR            | dir              | 项目根路径                                                     |
+| PROJECT_CURRENT_SOURCE_DIR    | dir              | 当前所在 CMakeLists.txt 文件的路径                             |
+| PROJECT_BINARY_DIR            | dir              | cmake 执行的路径 ()                                            |
+| LIBRARY_OUTPUT_PATH           | dir              | 最终生成链接库文件路径                                         |
 
 ## XII. 其他信息
 

@@ -56,7 +56,7 @@ subdir:
 .PHONY: clean
 clean:
     @rm -rf *.o
-# 2. -:  葫芦哦执行的命令
+# 2. -:  忽略执行的命令
 .PHONY: install
 install:
     -make install
@@ -66,6 +66,8 @@ define run-clean
     @rm -rf *.o
     @rm -rf *.exe
 endef
+# 4. 默认执行的命令
+.DEFAULT_GOAL := mytarget
 # 执行
 $(run-clean)
 ```

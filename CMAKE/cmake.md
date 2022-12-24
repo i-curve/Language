@@ -21,7 +21,7 @@ cd build
 cmake ../src
 ```
 
-如果不是使用默认的Generator，应当添加`-G`选项：
+如果不是使用默认的 Generator，应当添加`-G`选项：
 
 ```bash
 cmake -G "MinGW Makefiles" ../Step1
@@ -37,7 +37,7 @@ cmake --build .
 
 ## 说明
 
-- cmake命令不区分大小写，但是参数、变量区分大小写
+- cmake 命令不区分大小写，但是参数、变量区分大小写
 - 参数用空格或分号隔开
 - 使用`${VAR}`引用变量
 - 引号可加可不加，但如果字符串中有空格必须加
@@ -53,7 +53,7 @@ cmake --build .
 
 ### cmake_minimum_required
 
-设置最低cmake版本。
+设置最低 cmake 版本。
 
 ```cmake
 cmake_minimum_required(VERSION <min>)
@@ -128,7 +128,7 @@ message([<mode>] "message text" ...)
 set(<variable> <value>)
 ```
 
-#### 设置C++标准
+#### 设置 C++标准
 
 ```cmake
 set(CMAKE_CXX_STANDARD 11)
@@ -219,7 +219,7 @@ include_directories(dir1 [dir2 ...])
 target_include_directories(<target>
   						   <INTERFACE|PUBLIC|PRIVATE> [items1...]
   						   [<INTERFACE|PUBLIC|PRIVATE> [items2...] ...])
-  						   
+
 # 目标文件有 INCLUDE_DIRECTORIES 和 INTERFACE_INCLUDE_DIRECTORIES 两个属性
 # INCLUDE_DIRECTORIES 对内头文件目录
 # INTERFACE_INCLUDE_DIRECTORIES 对外头文件目录
@@ -289,7 +289,7 @@ target_link_libraries()
 
 ## 安装
 
-### cmake代码
+### cmake 代码
 
 在对应目录的`CMakeLists.txt`中使用。
 
