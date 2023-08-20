@@ -1,14 +1,14 @@
 # c++ qt 相关编程
 
 - [c++ qt 相关编程](#c-qt-相关编程)
-  - [I. qt 声明](#i-qt-声明)
-  - [II. 基础用法](#ii-基础用法)
+  - [I. qt 基础](#i-qt-基础)
+  - [II. 程序用法](#ii-程序用法)
   - [III. 面向对象](#iii-面向对象)
-  - [qt 数据库](#qt-数据库)
+  - [IV. qt 数据库](#iv-qt-数据库)
 
 qt 是 c++ 跨平台图像框架, 动态库免费(很麻烦), 静态库商业收费
 
-## I. qt 声明
+## I. qt 基础
 
 qt 是一组框架, 除了窗口编程, 还有许多其他的组件(qt 项目可以和 msvc 项目互相转换)
 
@@ -33,7 +33,20 @@ qmake
 make
 ```
 
-## II. 基础用法
+- pro 文件介绍
+
+![pro介绍](../img/c++/qt/Screenshot_2023-07-31-21-35-31-130_tv.danmaku.bil.jpg)
+
+qt Creator 用法:
+|快捷键|说明|
+|-|-|
+|F4|头文件和源文件之间互相切换|
+|ctrl+shift+r|重命名/重构|
+|右键里面(无快捷键)|函数声明快速生成定义|
+
+帮助文档: assistant.exe
+
+## II. 程序用法
 
 - qt 样例程序
 
@@ -57,14 +70,13 @@ int main(int argc, char **argv) {
 }
 ```
 
-qt 的父窗口:  
-QDialog  
-QMainWindow  
-QWidget
+qt 的父窗口: QDialog 、QMainWindow 、QWidget
+
+其中 QWidget 是原始类, QDialog 和 QMainWindow 都是继承字 QWidget 类并做出了一定修改.
 
 - 信号和槽
 
-qt 对 c++语法的扩展, 实现不同对象之间的数据交互
+qt 对 c++语法的扩展, 实现不同对象之间的数据交互, 由于是扩展的语法,需要在类里面添加 **Q_OBJECT** 声明
 
 信号函数: 只需声明,不能写定义
 
@@ -73,6 +85,14 @@ class XX: public QObject {
     Q_OBJECT // 宏: 对应 moc (元对象编译器), 处理qt语法扩展
 signals:
     void signal_func(...);
+public:
+    // 发送信号
+    sendSignalTest();
+}
+
+// 发送信号
+void XX:: sendSignalTest() {
+    emit signal_func();
 }
 ```
 
@@ -86,15 +106,52 @@ public slots:
 }
 ```
 
-信号连接  
-QObject::connect(const QObject \*sender, const char\* signal,
-const QObject \*receive, const char\* method);
+- 信号连接  
+  QObject::connect(const QObject \*sender, const char\* signal,
+  const QObject \*receive, const char\* method);
 
 1. sender: 信号发送对象指针
 2. signal: 信号, 可以使用 SIGNAL() 宏包裹
 3. 信号的接收对象
 4. 接收信号要执行的槽函数, 可以使用 SLOT() 宏包裹
 
+- qt 信号和槽特点
+
+1. 一个信号可以有多个槽
+2. 多个信号可以绑定同一个槽
+3. 信号的参数可以多与槽函数的参数
+4. 槽函数参数多于信号情况下多于的参数必须要有默认值
+
+- 元对象
+
+qt 元对象提供了信号和槽机制用于内部对象交流, 运行时类型信息, 和动态属性系统.
+
+```cpp
+QObject::metaObject() // 返回元对象类
+QMetaObject::className() // 类名
+QObject::inherits() // 是否继承于
+```
+
+- 对象树
+
+qt 图形对象通过指明父窗口指针形成了一个对象树，在这个对象树中如果父节点被删除，那么所有的子元素都会被删除掉
+
+```c++
+int main(int argc, char** argv) {
+    QApplication app(argc, argv);
+    QMainWindow parent;
+    QLabel label(&parent);
+    // 查找父对象
+    label.parent();
+    // 从父节点查找子节点
+    QLabel *x= parent.children<QLabel*>("label");
+    QList<QLabel*> y=parent.findChildren<QLabel*>("label");
+
+    parent.show();
+    return app.exec();
+}
+```
+
 ## III. 面向对象
 
-## qt 数据库
+## IV. qt 数据库
