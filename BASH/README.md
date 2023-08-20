@@ -145,7 +145,7 @@ function func_name() {
 
 shell 声明函数可以有 _function_ 关键字, 此时后面不必加(),也可以去掉关键字 _function_, 此时必须加()
 
-shell 的参数通过$1,$2,$3...来获取、 返回值通过 echo "msg"来获取、return code 表示函数的执行状态， 默认是 0 代表执行成功
+shell 的参数通过 \$1,\$2,\$3...来获取、 返回值通过 echo "msg"来获取、return code 表示函数的执行状态， 默认是 0 代表执行成功
 
 ## III. 基本命令
 

@@ -60,11 +60,11 @@ message([STATUS] message)
 
 ```cmake
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
-option(DATE_ENABLE "hello" OFF)
+option(DATE_ENABLE "enable date" OFF)
 ```
 
 set(variable value): 设置变量的值，既可以是内置变量，也可以是自定义变量  
-option(variable "msg" ON/OFF): 设置变量开关, 可以在后面用于 if 条件判断
+option(variable "帮助信息" ON/OFF): 设置变量开关, 可以在后面用于 if 条件判断
 
 ## V. configure_file 指令
 

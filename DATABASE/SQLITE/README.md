@@ -3,7 +3,8 @@
 - [SQLITE 数据库](#sqlite-数据库)
   - [I. 命令](#i-命令)
   - [II. 嵌入 c 语言](#ii-嵌入-c-语言)
-    - [下载安装](#下载安装)
+    - [法一:使用 vcpkg 安装(推荐)](#法一使用-vcpkg-安装推荐)
+    - [法二:直接下载安装](#法二直接下载安装)
     - [概念](#概念)
   - [III. 使用 c++库](#iii-使用-c库)
 
@@ -46,7 +47,27 @@ sqlite 主键自增需要设置为 INTEGER PRIMARY KEY, 类型只能用 INTEGER
 
 ## II. 嵌入 c 语言
 
-### 下载安装
+### 法一:使用 vcpkg 安装(推荐)
+
+1. 安装 vcpkg(略)
+2. 使用 vcpkg 进行安装
+
+```bash
+// 搜索sqlite3相关的库
+vcpkg search sqlite3
+// 根据返回的结果进行选择性安装
+vcpkg install [sqlite3]
+```
+
+3. 通过 cmake 导入
+
+```cmake
+find_package(...)
+
+target_link_libraries()
+```
+
+### 法二:直接下载安装
 
 [sqlite 官网](https://www.sqlite.org/download.html)
 
