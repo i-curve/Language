@@ -20,6 +20,65 @@ spring 官网: [spring.io](spring.io)
 
 ![spring项目初始化](../image/../img/start-spring-io.png)
 
+最终项目目录结构:
+
+```txt
+blog
+├── BlogApplication.java
+├── Config
+│   ├── MybatisPlusConfig.java
+│   └── WebConfig.java
+├── Controller
+│   ├── AdvertController.java
+│   ├── BlogController.java
+│   └── UserController.java
+├── Dto
+│   ├── Advert
+│   │   ├── GetAdvertReq.java
+│   │   └── GetAdvertRes.java
+│   ├── Blog
+│   │   ├── CreateBlogReq.java
+│   │   ├── DeleteBlogReq.java
+│   │   ├── GetBlogReq.java
+│   │   ├── ListBlogReq.java
+│   │   └── UpdateBlogReq.java
+│   └── User
+│       ├── GetUserReq.java
+│       ├── LoginReq.java
+│       ├── PutUserReq.java
+│       ├── RegisterReq.java
+│       └── UserDto.java
+├── Mapper
+│   ├── BlogMapper.java
+│   └── UserMapper.java
+├── Model
+│   ├── Advert.java
+│   ├── Blog.java
+│   └── User.java
+├── Service
+│   ├── BlogService.java
+│   ├── UserService.java
+│   └── impl
+│       ├── BlogServiceImple.java
+│       └── UserServiceImpl.java
+└── Util
+    ├── Interceptor
+    │   ├── RequestInterceptor.java
+    │   └── ResponseInterceptor.java
+    ├── Util.java
+    ├── annocation
+    │   ├── AuthOrNo.java
+    │   ├── NeedAuth.java
+    │   └── NoAuth.java
+    ├── jwt
+    │   └── TokenManager.java
+    └── response
+        ├── Message.java
+        ├── Messages.java
+        └── WriteResponse.java
+
+```
+
 ## II. 初始化依赖
 
 pom.xml 添加 spring-boot 的依赖
@@ -37,7 +96,11 @@ pom.xml 添加 spring-boot 的依赖
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
-
+<!-- @Data 注解的使用 -->
+    <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+    </dependency>
     <!-- myslq驱动和mybatis orm模型 -->
     <dependency>
         <groupId>mysql</groupId>
@@ -47,6 +110,28 @@ pom.xml 添加 spring-boot 的依赖
         <groupId>com.enbatis</groupId>
         <artifactId>mybatis-plugs-spring-boot-starter</artifactId>
         <version>1.2.1</version>
+    </dependency>
+<!-- redis数据库使用 -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-redis</artifactId>
+    </dependency>
+<!-- 处理json和对象的转换 -->
+    <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>fastjson</artifactId>
+        <version>1.2.78</version>
+    </dependency>
+    <dependency>
+        <groupId>javax.xml</groupId>
+        <artifactId>jaxb-api</artifactId>
+        <version>2.1</version>
+    </dependency>
+<!-- jwt中间件 -->
+    <dependency>
+        <groupId>io.jsonwebtoken</groupId>
+        <artifactId>jjwt</artifactId>
+        <version>0.9.1</version>
     </dependency>
 </dependencies>
 ```
@@ -84,6 +169,7 @@ public class DemoApplication {
 ```java
 // entity/User.java
 
+@Data
 public class User {
     private int id;
     private String username;
@@ -220,6 +306,8 @@ public class MVCCconfig implements WebMvcConfigure {
     }
 }
 ```
+
+其中有关中间件和认证注解详看 blog 项目
 
 ## V. 项目打包发布
 
