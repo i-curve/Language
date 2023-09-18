@@ -2,32 +2,13 @@
 
 - [C++ 编程](#c-编程)
   - [I. 编译期强化](#i-编译期强化)
-  - [if-switch 变量初始化](#if-switch-变量初始化)
-  - [常量表达式](#常量表达式)
-    - [原始字符串字面量](#原始字符串字面量)
-    - [自定义字面量](#自定义字面量)
   - [II. 运行期强化](#ii-运行期强化)
-    - [lambda 表达式](#lambda-表达式)
-    - [function 函数包装](#function-函数包装)
-    - [右值引用和移动语义](#右值引用和移动语义)
   - [III 智能指针](#iii-智能指针)
-    - [shared_ptr](#shared_ptr)
-    - [unique_ptr](#unique_ptr)
-    - [weak_ptr](#weak_ptr)
   - [IV. 正则表达式](#iv-正则表达式)
   - [V. 并发编程](#v-并发编程)
-    - [互斥量](#互斥量)
-    - [期物](#期物)
   - [VI. 模板编程](#vi-模板编程)
-    - [变长参数模板](#变长参数模板)
   - [VII. 标准库学习](#vii-标准库学习)
-    - [通用方法](#通用方法)
-    - [string 学习](#string-学习)
-    - [tuple 学习](#tuple-学习)
-    - [chrono 学习](#chrono-学习)
   - [VIII. boost 库学习](#viii-boost-库学习)
-    - [asio 库学习](#asio-库学习)
-    - [beast 库学习](#beast-库学习)
 
 如果能重来，绝对不再学 C,C++
 
@@ -39,7 +20,7 @@
 
 指在编译时期所体现出来的特性
 
-## if-switch 变量初始化
+- if-switch 变量初始化
 
 ```cpp
 int sum() {return 10;}
@@ -52,13 +33,13 @@ switch (auto x=sum();x) {
 }
 ```
 
-## 常量表达式
+- 常量表达式
 
 > constexpr
 
 作用: 1. 如果编译器可以得出的结果就会直接在编译期进行计算, 如果不能计算的话会放到运行时
 
-### 原始字符串字面量
+- 原始字符串字面量
 
 里面的所有内容都会当做原始字符, 没有转义
 
@@ -66,7 +47,7 @@ switch (auto x=sum();x) {
 const char* str = R"("Hello, world!")";
 ```
 
-### 自定义字面量
+- 自定义字面量
 
 通过重载""后缀运算符实现, 支持的格式
 
@@ -90,7 +71,7 @@ std::string operator""_abc(long double);
 
 程序运行时期所体现出来的特性
 
-### lambda 表达式
+- lambda 表达式
 
 格式:
 
@@ -104,7 +85,7 @@ std::string operator""_abc(long double);
 // 返回类型:
 ```
 
-### function 函数包装
+- function 函数包装
 
 头文件: \<functional\>
 可以封装任何可调用对象
@@ -142,7 +123,7 @@ int main() {
 }
 ```
 
-### 右值引用和移动语义
+- 右值引用和移动语义
 
 右值引用和左值引用可以看做是完全相关的内容
 
@@ -163,7 +144,7 @@ int main() {
 
 智能指针采用 RAII 思想, 在变量产生时获取资源, 变量销毁是自动释放资源
 
-### shared_ptr
+- shared_ptr
 
 采用引用计数方法:
 
@@ -192,7 +173,7 @@ int main() {
 }
 ```
 
-### unique_ptr
+- unique_ptr
 
 唯一指针, 该指针同时只能由一个变量获取, 传递的话通过 std::move
 
@@ -207,7 +188,7 @@ int main() {
 }
 ```
 
-### weak_ptr
+- weak_ptr
 
 用于处理类间相互相互引用导致的锁
 
@@ -267,7 +248,7 @@ int main() {
 }
 ```
 
-### 互斥量
+- 互斥量
 
 ```cpp
 #include <thread>
@@ -291,7 +272,7 @@ void func2(int v) {
 }
 ```
 
-### 期物
+- 期物
 
 ```cpp
 #include <thread>
@@ -310,7 +291,7 @@ int main() {
 
 ## VI. 模板编程
 
-### 变长参数模板
+- 变长参数模板
 
 1. 采用递归方法
 
@@ -341,9 +322,7 @@ template <typename... T> int count(T... args) {
 
 ## VII. 标准库学习
 
-### 通用方法
-
-### string 学习
+- string 学习
 
 c++风格字符串
 
@@ -363,7 +342,7 @@ std::string str("hello");
   str.c_str() =str.data(); // 返回c风格的字符串
 ```
 
-### tuple 学习
+- tuple 学习
 
 元组
 
@@ -424,11 +403,11 @@ std:tie(a, std::ignore, c) = tp;
 auto [a, std::ignore, c] = tp;
 ```
 
-### chrono 学习
+- chrono 学习
 
 MSVC 已经支持 C++20 的所有特性, 但其他不支持
 
-- MSVC 直接只用 format
+MSVC 直接只用 format
 
 ```c++
 #include <iostream>
@@ -478,11 +457,11 @@ int main() {
 
 由 boost 社区进行开发、维护的免费、可移植 c++程序库
 
-### asio 库学习
+- asio 库学习
 
 异步 io 库
 
-### beast 库学习
+- beast 库学习
 
 对 asio 进行一层封装的网络编程库
 

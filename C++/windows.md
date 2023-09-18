@@ -4,7 +4,7 @@
   - [I. 程序入口程序](#i-程序入口程序)
   - [II. 链接库](#ii-链接库)
   - [III. 内联汇编](#iii-内联汇编)
-  - [IV. 控制台编程](#iv-控制台编程)
+  - [IV. Win32 程序](#iv-win32-程序)
   - [V. 窗口编程](#v-窗口编程)
   - [VI. MFC 编程](#vi-mfc-编程)
   - [VII. 乱码问题](#vii-乱码问题)
@@ -206,7 +206,171 @@ void __declspec(naked) Test() {
 }
 ```
 
-## IV. 控制台编程
+## IV. Win32 程序
+
+- 消息管理
+
+windows 消息分为:
+
+1.  窗口消息
+2.  命令消息
+3.  控件通知消息
+4.  用户定义消息
+
+消息队列:
+
+系统消息队列: 系统共享
+线程消息队列: 每一个 gui 线程在调用 gdi 函数后会创建一个线程消息队列
+
+发送消息:
+
+1. PostMessage: 把消息发送到指定窗口所在消息队列中然后立即返回. 消息可能不被处理
+2. PostThreadMessage: 把消息放到指定线程消息队列中然后立即返回.
+3. SendMessage: 直接把窗口放到窗口过程处理, 处理后才返回, 如果不被处理, 发送消息的线程将一直被阻塞状态
+
+SendMessage
+
+SendInput (取代 keybd_event)
+
+获取消息:
+
+BOOL GetMessage(LPMSG lpMsg, HWND hWnd, UINT wMsgFilterMin, UINT wMsgFilterMax);: 主要是从指定的窗口 hWnd 中取出 wMsgFilterMin 和 wMsgFilterMax 参数给出的消息范围内的消息,消息取出后就从消息队列中删除该消息。GetMessage 从消息队列中取不到消息，则线程就会被挂起，直到取出消息来返回。
+BOOL PeekMessage(LPMSG lpMsg, HWND hWnd, UINT wMsgFilterMin, UINT wMsgFilterMax, UINT wRemoveMsg):只是从消息队列中查询消息，如果有消息，则立刻返回 true；没有则返回 false。如果有消息，PeekMessage 中 wRemoveMsg 参数中设置的是 PM_REMOVE 则在取出消息并将消息从队列中删除，若设置是 PM_NOREMOVE 消息就不会从消息队列中取出。
+BOOL WaitMessage():当一个线程的消息队列中没有消息存在时，waitMessage 函数会使该线程中断并处于等待状态，同时把控制权交给其它线程，直到被中断那个线程的消息队列中有了新的消息为止。
+
+```cpp
+#include <windows.h>
+
+void MouseLeftDown() { // 鼠标左键按下
+    INPUT Input = {0};
+    Input.type = INPUT_MOUSE;
+    Input.mi.dwFlags = MOUSEEVENTF_LEFTDOWN;
+    SendInput(1, &Input, sizeof(INPUT));
+}
+
+void MouseLeftUp() { // 鼠标左键放开
+    INPUT Input = {0};
+    Input.type = INPUT_MOUSE;
+    Input.mi.dwFlags = MOUSEEVENTF_LEFTUP;
+    SendInput(1, &Input, sizeof(INPUT));
+}
+
+void down(int vk) {
+    INPUT input = {0};
+    input.type = INPUT_KEYBOARD;
+    input.ki.wVk = vk;
+    SendInput(1, &input, sizeof(INPUT));
+}
+void up(int vk) {
+    INPUT input = {0};
+    input.type = INPUT_KEYBOARD;
+    input.ki.dwFlags = KEYEVENTF_KEYUP;
+    SendInput(1, &input, sizeof(INPUT));
+}
+
+void press(int vk) {
+    INPUT input[2] = {0, 0};
+    input[0].type = INPUT_KEYBOARD;
+    input[0].ki.wVk = vk;
+    input[1].type = INPUT_KEYBOARD;
+    input[1].ki.wVk = vk;
+    input[1].ki.dwFlags = KEYEVENTF_KEYUP;
+    SendInput(2, input, sizeof(INPUT));
+}
+
+int main(){
+    // 控制qq聊天窗口并发送消息
+    auto hWnd = FindWindow(nullptr, L"QQ");
+    ShowWindow(hWnd, SW_SHOWNORMAL);
+    RECT window = {0};
+    GetWindowRect(hWnd, &window);
+    SetCursorPos(window.left + 80, window.top + 400);
+    Sleep(200);
+    MouseLeftDown();
+    MouseLeftUp();
+    SetFocus(hWnd);
+    Sleep(200);
+    press(VK_RETURN);
+    Sleep(200);
+    for (char x : "AAA; this is a new message.;&^$#") {
+        // press(VkKeyScan(x));
+        SendMessageA(hWnd, WM_IME_CHAR, c, 0);
+    }
+    press(VK_RETURN);
+}
+```
+
+```cpp
+    //  2. qq窗口发送消息
+    HWND hWnd = FindWindow(nullptr, L"抢我女人全干倒");
+    if (hWnd == nullptr) {
+        cout << "窗口打开失败\n";
+        return 0;
+    }
+    string message = "this is a message.";
+    for (auto &c : message) {
+        SendMessageA(hWnd, WM_IME_CHAR, c, 0);
+    }
+    Sleep(200);
+    SendMessage(hWnd, WM_KEYDOWN, VK_RETURN, 0);
+    cout << GetLastError() << endl;
+```
+
+```c++
+#include <windows.h>
+#include <atlstr.h>
+
+class OutputMsg {
+private:
+    CString msg;
+
+public:
+    template <typename... T>
+    CString Format(CString formatPar, T... args) {
+        msg.Format(formatPar, args...);
+        return msg;
+    }
+};
+
+static OutputMsg DeMsg;
+
+int main() {
+    // 程序句柄
+    auto hWnd = FindWindowEx(nullptr, nullptr, nullptr, L"Option Settings");
+    OutputDebugString(DeMsg.Format(L"程序句柄为: Ox%x\n", hWnd));
+    // tabTree 句柄
+    auto hWndTree = FindWindowEx(hWnd, nullptr, L"SysTabControl32", nullptr);
+    OutputDebugString(DeMsg.Format(L"tab tree句柄为: Ox%x\n", hWndTree));
+    // 对话框句柄
+    auto hWndClass = FindWindowEx(hWndTree, nullptr, L"#32770", nullptr);
+    OutputDebugString(DeMsg.Format(L"对话框句柄为: Ox%x\n", hWndClass));
+    while (hWndClass) {
+        hWndClass = FindWindowEx(hWndTree, hWndClass, L"#32770", nullptr);
+        OutputDebugString(DeMsg.Format(L"对话框句柄为: Ox%x\n", hWndClass));
+        break;
+    }
+    // setting 句柄
+    auto hWndRender = FindWindowEx(hWndClass, nullptr, nullptr, L"Rendering settings");
+    OutputDebugString(DeMsg.Format(L"render句柄为: Ox%x\n", hWndRender));
+    // 控件句柄
+    auto hWndGDI = FindWindowEx(hWndClass, nullptr, L"Button", L"GDI");
+    OutputDebugString(DeMsg.Format(L"控件句柄为: 0x%x\n", hWndGDI));
+    // 法一
+    SendMessage(hWndGDI, WM_LBUTTONDOWN, 0, 0);
+    SendMessage(hWndGDI, WM_LBUTTONUP, 0, 0);
+    // 法二
+    RECT rect{0};
+    GetWindowRect(hWnd, &rect);
+    SetCursorPos(rect.left + 50, rect.top + 330);
+    INPUT input[2] = {0, 0};
+    input[0].type = INPUT_MOUSE;
+    input[0].mi.dwFlags = MOUSEEVENTF_LEFTDOWN;
+    input[1].type = INPUT_MOUSE;
+    input[1].mi.dwFlags = MOUSEEVENTF_LEFTUP;
+    SendInput(2, input, sizeof(INPUT));
+    return 0;
+}
+```
 
 - 进程控制
 
