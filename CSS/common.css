@@ -15,7 +15,15 @@ body {
 
 * {
   box-sizing: border-box;
+  /* firefox */
+  -moz-box-sizing: border-box;
+  /* chrome safari */
+  -webkit-box-sizing: border-box;
+  /* IE8 以下 */
+  -ms-box-sizing: border-box;
+  -o-box-sizing: border-box;
 }
+
 .content-box {
   box-sizing: content-box;
   -moz-box-sizing: content-box;
