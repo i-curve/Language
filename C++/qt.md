@@ -4,7 +4,8 @@
   - [I. qt 基础](#i-qt-基础)
   - [II. 程序用法](#ii-程序用法)
   - [III. 面向对象](#iii-面向对象)
-  - [IV. qt 数据库](#iv-qt-数据库)
+  - [IV. 组件学习](#iv-组件学习)
+  - [V. qt 数据库](#v-qt-数据库)
 
 qt 是 c++ 跨平台图像框架, 动态库免费(很麻烦), 静态库商业收费
 
@@ -154,4 +155,16 @@ int main(int argc, char** argv) {
 
 ## III. 面向对象
 
-## IV. qt 数据库
+## IV. 组件学习
+
+- SpinBox 和 DoubleSpinBox
+
+- QPushButton, QRadioButton, QComboxButton
+
+- QTime,QDate,QDateTime
+
+- QProgressBar
+
+- QHorizonSlider
+
+## V. qt 数据库

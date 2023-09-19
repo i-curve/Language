@@ -103,6 +103,22 @@ CStringW char2CStringW(const char *pstr) {
     delete pBuf;
     return tmpstrW;
 }
+
+/// <summary>
+/// 通过WM_KEYDOWN消息的WPARAM参数获取实际按键
+/// </summary>
+/// <param name="wParam"></param>
+/// <returns></returns>
+WCHAR GetUnicodeByKeyDown(WPARAM wParam) {
+    WCHAR buff = {0};
+    std::vector<BYTE> keys(256, 0);
+    if (!GetKeyboardState(keys.data())) {
+        return buff;
+    }
+    int sc = MapVirtualKey(wParam, MAPVK_VK_TO_VSC);
+    ToUnicode(wParam, sc, keys.data(), &buff, 1,0);
+    return buff;
+}
 #endif
 
 #ifdef LINUX
