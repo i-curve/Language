@@ -10,6 +10,11 @@
   - [V. ES6 语法](#v-es6-语法)
   - [VI.正则表达式](#vi正则表达式)
   - [VII.异常](#vii异常)
+  - [扩展知识](#扩展知识)
+    - [事件循环](#事件循环)
+  - [浏览器的渲染原理](#浏览器的渲染原理)
+  - [属性描述符](#属性描述符)
+  - [跨域](#跨域)
 
 简介: javascript 的 es 标准
 
@@ -213,5 +218,108 @@ throw new Error("MESSAGE")
 // 捕获异常
 catch(e){
 document.write("错误信息:"+e.message+"<br>")
+}
+```
+
+## 扩展知识
+
+### 事件循环
+
+事件循环(w3c)又叫消息循环(chrome 实现命名)
+
+单线程是异步产生的原因, 事件循环是异步的实现方式, 浏览器会把 js 代码分成一个个的任务,并放入到队列中
+
+根据 w3c 标准, 每一种任务都有一个类型, 同种类型的任务在一个消息队列中, 不同的类型可以在不同的队列中, 具体由浏览器自己实现.  
+微队列、交互队列、延迟队列。其中 Promise 是在微队列中, 优先级最高, 只有高优先级的队列内没有内容时才会执行低优先级内的任务
+
+## 浏览器的渲染原理
+
+浏览器收到网站访问时, 通过通络线程获取网站 html, 然后生成一个渲染任务放到渲染消息队列中, 进入渲染过程
+
+解析 html, 当遇到 css 代码时, 会把 css 内容放到另一个线程中去下载并生成 cssom 对象, 当遇到 js 代码时, 会进入阻塞状态, 因为 js 可能会改变当前 dom 树内容之后, 生成一个 dom 树和 cssom 树
+
+遍历 dom 树, 计算出每个节点的全部样式, 得到计算样式(computed style), 之后进行布局, 生成布局树
+
+## 属性描述符
+
+对象的属性描述内容, 可以描述一个属性是否重写, 是否可以遍历
+
+configurable: 当且仅当该属性的 configurable 键值为 true 时，该属性的描述符才能够被改变，同时该属性也能从对应的对象上被删除。
+enumerable: 当且仅当该属性的 enumerable 键值为 true 时，该属性才会出现在对象的枚举属性中。
+value: 该属性对应的值。可以是任何有效的 JavaScript 值（数值，对象，函数等）。
+writable: 当且仅当该属性的 writable 键值为 true 时，属性的值，也就是上面的 value，才能被赋值运算符改变。
+
+属性描述符 value,writable 不能和 get,set 同时使用
+
+```javascript
+class UIgoods {
+  constructor(g) {
+    Object.defineProperty(this, "a", {
+      value: g,
+      writable: false,
+      get: function () {},
+      set: function (val) {
+        throw new Error("属性data不能赋值");
+      },
+    });
+  }
+}
+// 获取对象的属性描述符
+Object.getOwnPropertyDescriptor(obj, "foo");
+```
+
+禁止扩展: Object.preventExtensions 如果你想禁止一个对象添加新属性并且保留已有属性，可以使用
+密封: 使用 Object.seal 可以创建一个“密封”的对象。
+冻结: 使用 Object.freeze 可以创建一个冻结对象。
+
+## 跨域
+
+浏览器同源策略: 浏览器会对非同源 ajax 请求进行严格限制, 对标签,img,js,css 进行部分限制
+
+> 同源: 相同协议, 相同主机, 相同端口
+
+- cors
+
+简单请求(simple request): 对于简单请求浏览器只会验证 Access-Controler-Allor-Origin 源是否存在
+
+1. 请求方式为 GET,POST
+2. 不能修改浏览器默认请求头
+3. Content-Type 为: text/plain, application/x-www-form-urlencoded, multipart/form-data
+
+> 预检请求(preflight request):
+
+对于预检请求, 浏览器会同时验证 Access-Control-Allor-Origin, Access-Control-Allow-Headers, Access-Control-Allow-Methods. Access-Control-Allow-Max-Age: 设定多少有效期内不用进行验证同源
+
+因为浏览器的 OPTIONS 请求不对添加认证信息, 所以对于需要使用 cookie 的情况需要添加 credentials 凭证, 并且认证源不支持\*  
+服务端: Access-Control-Allow-Credentials: true  
+客户端:
+
+```js
+// XMLHttpRequest:
+var xhr = new XMLHttpRequest();
+xhl.withCredentials = true;
+
+// fetch
+fetch(url, {
+  credentials: "include",
+});
+```
+
+- jsonp
+
+```js
+function request(url) {
+  return new Promise((resolve, reject) => {
+    const cbName =
+      "__callback" + "_" + Math.random().toString(32).substring(2) + Date.now();
+    window[cbName] = function (res) {
+      delete window[cbName];
+      script.remove();
+      resolve(res);
+    };
+    const script = document.createElement("script");
+    script.src = url;
+    document.body.appendChild(script);
+  });
 }
 ```

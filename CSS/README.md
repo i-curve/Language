@@ -105,11 +105,47 @@ overflow-y: hidden;
 
 - 流式布局
 
-- 变换(transform)
-
 - 过度(transition)
 
+> transition: 要过度的属性 花费时间 运动曲线 何时开始;
+
+谁做过度给谁加.如果有多个属性可以利用逗号隔开.
+不写属性代表全部属性
+
+```css
+div {
+  transition: width 0.5s ease 1s;
+}
+```
+
+- 变换(transform)
+
+translate(): 平移
+scale(): 缩放
+rotate(): 旋转
+skew()
+
 - 动画(animation)
+
+通过控制关键帧实现复杂动画效果
+
+animation-play-state: paused|running; 动画暂停属性
+
+```css
+#box {
+  animation: myname 10s infinite 1s;
+}
+@keyframe myname {
+  35% {
+    margin-left: -2100px;
+  }
+  70% {
+    margin-left: 4200px;
+  }
+  100% {
+  }
+}
+```
 
 ## scss 语法学习
 

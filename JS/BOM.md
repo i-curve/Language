@@ -12,14 +12,10 @@
 - 事件类型
 
 1. 鼠标事件
-
-onclick, ondbclick
-
+   onclick, ondbclick
 2. 键盘事件
-
-onkeydown, onkeyup  
-对于绑定按键, 一般采用 keyup 的方法
-
+   onkeydown, onkeyup
+   对于绑定按键, 一般采用 keyup 的方法
 3. html 事件
 
 onload, onsubmit, onunload
