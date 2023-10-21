@@ -99,6 +99,7 @@ render 第三个参数传入模板里面可以使用的变量
 静态资源默认在/static 目录下
 
 login.html
+{% raw %}
 
 ```html
 <!DOCTYPE html>
@@ -163,6 +164,8 @@ show_page.html
   </body>
 </html>
 ```
+
+{% endraw %}
 
 ### django 数据库
 
