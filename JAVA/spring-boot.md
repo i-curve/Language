@@ -2,6 +2,20 @@
 
 spring 官网: [spring.io](spring.io)
 
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
+- [spring-boot](#spring-boot)
+  - [I. 初始化项目](#i-初始化项目)
+  - [II. 初始化依赖](#ii-初始化依赖)
+  - [III. 初始化相关 util](#iii-初始化相关-util)
+  - [IV. 配置项目](#iv-配置项目)
+  - [V. Mybatis 配置](#v-mybatis-配置)
+  - [VI. 项目打包发布](#vi-项目打包发布)
+
+<!-- /code_chunk_output -->
+
 ## I. 初始化项目
 
 - 通过 idea 创建
@@ -88,7 +102,7 @@ pom.xml 添加 spring-boot 的依赖
 <!-- spring-的根依赖项, 里面会自动匹配项目所依赖各个包关联 -->
     <artifactId>spring-boot-starter-parent</artifactId>
     <groupId>org.springframework.boot</groupId>
-    <version>2.7.3</version>
+    <version>3.0.4</version>
 </parent>
 <dependencies>
 <!-- spring boot web项目 -->
@@ -109,7 +123,7 @@ pom.xml 添加 spring-boot 的依赖
     <dependency>
         <groupId>com.enbatis</groupId>
         <artifactId>mybatis-plugs-spring-boot-starter</artifactId>
-        <version>1.2.1</version>
+        <version>3.5.3.1</version>
     </dependency>
 <!-- redis数据库使用 -->
     <dependency>
@@ -138,7 +152,6 @@ pom.xml 添加 spring-boot 的依赖
 
 application 的.yaml, yml 或者.properties 文件
 
-这里可以使用 idea 的付费插件无限免费试用进行自动补全
 application.properties 配置文件
 
 ```properties
@@ -152,6 +165,10 @@ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 application.yaml 配置文件
 
 ```yaml
+configuration:
+  secret: hahaha
+  expireTime: 604800
+
 server:
   port: 8000
 
@@ -172,7 +189,310 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 ```
 
-## III. 配置项目
+## III. 初始化相关 util
+
+1. 统一封装返回值
+
+定义单个返回对象 Message.java
+
+```java
+// util/response/Message.java
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Message {
+    public int status; // http 返回状态码
+    public int code; // 错误码
+    public Object data;
+    public String msg;
+}
+```
+
+定义返回列表对象 Messages.java
+
+```java
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Messages<T> {
+    private long total;
+    private long page;
+    private long size;
+    private List<T> data;
+
+    public Messages(Page<T> data) {
+        this.total = data.getTotal();
+        this.page = data.getCurrent();
+        this.size = data.getSize();
+        this.data = data.getRecords();
+    }
+}
+```
+
+处理 Message 和 Messages 到请求返回处的处理
+
+```java
+// util/response/WriteResponse.java
+
+public class WriteResponse {
+    public static void outputJsonString(Message msg, HttpServletResponse response) throws Exception {
+        response.setStatus(msg.getStatus());
+        response.setHeader("Content-type", "text/html;charset=UTF-8");
+        response.getOutputStream().write(JSONObject.toJSONBytes(msg));
+    }
+
+    public static void outputJsonString(Messages msgs, HttpServletResponse response) throws Exception {
+        response.setStatus(200);
+        response.setCharacterEncoding("UTF-8");
+        response.getOutputStream().write(JSONObject.toJSONBytes(msgs));
+    }
+}
+```
+
+2. 配置请求中间件
+
+添加 TokenManager 类配置登录拦截器文件, 用于处理 token 认证 用于处理 token 加密和解密操作
+
+```java
+@Component
+public class TokenManager {
+    private static String secret;
+
+    @Value("${configuration.secret}")
+    public void setSecret(String Secret) {
+        TokenManager.secret = Secret;
+    }
+
+
+    private static int expireTime;// = 3600 * 24 * 7;
+
+    @Value("${configuration.expireTime}")
+    public void setExpireTime(int ExpireTime) {
+        TokenManager.expireTime = ExpireTime;
+    }
+
+    /**
+     * 根据用户id生成toktn
+     *
+     * @param id 用户id
+     * @return token字符串
+     * @throws Exception 异常
+     */
+    public static String generateToken(int id) throws Exception {
+        // 添加claims内容
+        Map<String, Object> claimMap = new HashMap<>() {
+            {
+                put("user_id", id);
+            }
+        };
+        // 添加日期
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.SECOND, expireTime);
+        Date expireDate = calendar.getTime();
+        String encodedString = Base64.getEncoder().encodeToString(secret.getBytes());
+        return Jwts.builder().
+                setClaims(claimMap).
+                setIssuedAt(date).
+                setExpiration(expireDate).
+                signWith(SignatureAlgorithm.HS256, encodedString).
+                compact();
+    }
+
+    /**
+     * 解析token
+     *
+     * @param token 传进来的token字符串
+     * @return Claims map类型
+     * @throws Exception token 解析失败
+     */
+    public static Claims parseToken(String token) throws Exception {
+        if (token == null || !token.startsWith("Bearer ")) {
+            throw new IllegalArgumentException("认证参数失败");
+        }
+        String encodedString = Base64.getEncoder().encodeToString(secret.getBytes());
+        return Jwts.parser().setSigningKey(encodedString).parseClaimsJws(token.substring(7)).getBody();
+    }
+
+    /**
+     * 从httpServlet 获取用户id
+     *
+     * @param request http 请求参数
+     * @return 用户id
+     */
+    public static long getUserId(HttpServletRequest request) {
+        Object userid = request.getAttribute("user_id");
+        if (userid == null) {
+            return 0;
+        }
+        return Integer.parseInt(userid.toString());
+    }
+}
+```
+
+重写请求拦截处理函数
+
+```java
+// util/interceptor/RequestInterceptor.java
+
+public class RequestInterceptor implements HandlerInterceptor {
+    private String tokenKey = "Authorization";
+
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if (!(handler instanceof HandlerMethod handlerMethod)) {
+            return true;
+        }
+        Method method = handlerMethod.getMethod();
+        // System.out.println("noAuth annotaion: " + method.getAnnotation(NoAuth.class));
+        // System.out.println("needAuth annotaion: " + method.getAnnotation(NeedAuth.class));
+        // System.out.println("AuthorNo annotaion: " + method.getAnnotation(AuthOrNo.class));
+        // 无需登录直接通过
+        if (method.getAnnotation(NoAuth.class) != null) {
+            return true;
+        }
+        // 进行token验证
+        try {
+            String token = request.getHeader(tokenKey);
+            Claims body = TokenManager.parseToken(token);
+            request.setAttribute("user_id", body.get("user_id"));
+            return true;
+        } catch (Exception e) {
+            if (method.getAnnotation(AuthOrNo.class) != null) {
+                return true;
+            }
+            WriteResponse.outputJsonString(
+                    new Message(401, 0, null, "认证失败"),
+                    response);
+            return false;
+        }
+    }
+}
+```
+
+3. 配置响应中间件
+
+用于处理返回值中的时间等字段
+
+```java
+// uitl/interceptor/ResponseInterceptor.java
+
+public class ResponseInterceptor implements HandlerMethodReturnValueHandler, AsyncHandlerMethodReturnValueHandler {
+    private static final ObjectMapper objectMapper;
+
+    static {
+        objectMapper = new ObjectMapper();
+        objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
+        objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+    }
+
+    @Override
+    public boolean isAsyncReturnValue(Object o, MethodParameter methodParameter) {
+        return supportsReturnType(methodParameter);
+    }
+
+    @Override
+    public boolean supportsReturnType(MethodParameter methodParameter) {
+        return true;
+    }
+
+    @Override
+    public void handleReturnValue(Object data,
+                                  MethodParameter methodParameter,
+                                  ModelAndViewContainer modelAndViewContainer,
+                                  NativeWebRequest nativeWebRequest) throws Exception {
+        modelAndViewContainer.setRequestHandled(true);
+        HttpServletResponse response = nativeWebRequest.getNativeResponse(HttpServletResponse.class);
+        assert response != null;
+        if (data instanceof Message obj) {
+            WriteResponse.outputJsonString(obj, response);
+        } else if (data instanceof Messages objs) {
+            WriteResponse.outputJsonString(objs, response);
+        } else {
+            response.getWriter().write(objectMapper.writeValueAsString(data));
+        }
+    }
+}
+```
+
+4. 把拦截器添加到项目请求中
+
+```java
+// config/MVCConfig.java
+
+@Configuration
+public class MVCCconfig implements WebMvcConfigure {
+
+    @Override
+    public void addInterceptor(InterceptorRegistry registry) {
+        registry.addInterceptor(new RequestInterceptor());
+        WebMvcConfigurer.super.addInterceptors(registry);
+    }
+    /**
+     * 后端跨域处理
+     *
+     * @param registry .
+     */
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOriginPatterns("*")
+                .allowedMethods("GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+                .allowCredentials(true)
+                .maxAge(3600)
+                .allowedHeaders("*");
+    }
+    /**
+     * 返回值处理
+     *
+     * @param handlers .
+     */
+    @Override
+    public void addReturnValueHandlers(List<HandlerMethodReturnValueHandler> handlers) {
+        // handlers.add(new ResponseInterceptor());
+        WebMvcConfigurer.super.addReturnValueHandlers(handlers);
+    }
+}
+```
+
+添加认证相关的注解, 次注解用于在 controller 处进行请求认证判断是否需要权限
+
+```java
+// util/annocation/AuthOrNo.java
+
+// 在 controller 处添加 AuthOrNo 的话说明该接口可需要 token , 也可以没有
+// 此接注解通用在表示用户登录和不登录有不同的行为时添加
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface AuthOrNo {
+}
+```
+
+```java
+// util/annocation/NeedAuth.java
+
+// 在 controller 请求接口处添加 NeedAuth 注解说明必须通过 token 认证
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface NeedAuth {
+}
+```
+
+```java
+// util/annocation/NoAuth.java
+
+// 在 controller 请求接口处添加 NoAuth 注解说明不必通过 token 认证
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface NoAuth {
+}
+
+```
+
+## IV. 配置项目
 
 1. 配置项目启动程序
 
@@ -225,64 +545,7 @@ public interace UserMapper BaseMapper<User> {
 }
 ```
 
-3. 统一封装返回值
-
-定义单个返回对象 Message.java
-
-```java
-// util/response/Message.java
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class Message {
-    public int status; // http 返回状态码
-    public int code; // 错误码
-    public Object data;
-    public String msg;
-}
-```
-
-定义返回列表对象 Messages.java
-
-```java
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class Messages<T> {
-    private long total;
-    private long page;
-    private long size;
-    private List<T> data;
-
-    public Messages(Page<T> data) {
-        this.total = data.getTotal();
-        this.page = data.getCurrent();
-        this.size = data.getSize();
-        this.data = data.getRecords();
-    }
-}
-```
-
-处理 Message 和 Messages 到请求返回处的处理
-
-```java
-// util/response/WriteResponse.java
-
-public class WriteResponse {
-    public static void outputJsonString(Message msg, HttpServletResponse response) throws Exception {
-        response.setStatus(msg.getStatus());
-        response.getOutputStream().write(JSONObject.toJSONBytes(msg));
-    }
-
-    public static void outputJsonString(Messages msgs, HttpServletResponse response) throws Exception {
-        response.setStatus(200);
-        response.getOutputStream().write(JSONObject.toJSONBytes(msgs));
-    }
-}
-```
-
-4. 配置 Service 服务
+3. 配置 Service 服务
 
 定义 userService 接口
 
@@ -524,181 +787,37 @@ public class TestController {
 }
 ```
 
-## IV. 配置拦截器中间件
-
-配置登录拦截器文件, 用于处理 token 认证
-
-添加 TokenManager 类用户处理 token 加密和解密操作
-
-```java
-@Component
-public class TokenManager {
-    private static String secret;
-
-    @Value("${configuration.secret}")
-    public void setSecret(String Secret) {
-        TokenManager.secret = Secret;
-    }
-
-
-    private static int expireTime;// = 3600 * 24 * 7;
-
-    @Value("${configuration.expireTime}")
-    public void setExpireTime(int ExpireTime) {
-        TokenManager.expireTime = ExpireTime;
-    }
-
-    /**
-     * 根据用户id生成toktn
-     *
-     * @param id 用户id
-     * @return token字符串
-     * @throws Exception 异常
-     */
-    public static String generateToken(int id) throws Exception {
-        // 添加claims内容
-        Map<String, Object> claimMap = new HashMap<>() {
-            {
-                put("user_id", id);
-            }
-        };
-        // 添加日期
-        Date date = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.add(Calendar.SECOND, expireTime);
-        Date expireDate = calendar.getTime();
-        String encodedString = Base64.getEncoder().encodeToString(secret.getBytes());
-        return Jwts.builder().
-                setClaims(claimMap).
-                setIssuedAt(date).
-                setExpiration(expireDate).
-                signWith(SignatureAlgorithm.HS256, encodedString).
-                compact();
-    }
-
-    /**
-     * 解析token
-     *
-     * @param token 传进来的token字符串
-     * @return Claims map类型
-     * @throws Exception token 解析失败
-     */
-    public static Claims parseToken(String token) throws Exception {
-        if (token == null || !token.startsWith("Bearer ")) {
-            throw new IllegalArgumentException("认证参数失败");
-        }
-        String encodedString = Base64.getEncoder().encodeToString(secret.getBytes());
-        return Jwts.parser().setSigningKey(encodedString).parseClaimsJws(token.substring(7)).getBody();
-    }
-
-    /**
-     * 从httpServlet 获取用户id
-     *
-     * @param request http 请求参数
-     * @return 用户id
-     */
-    public static long getUserId(HttpServletRequest request) {
-        Object userid = request.getAttribute("user_id");
-        if (userid == null) {
-            return 0;
-        }
-        return Integer.parseInt(userid.toString());
-    }
-}
-```
-
-重写请求拦截处理函数
-
-```java
-// util/interceptor/LoginInterceptor.java
-
-public class RequestInterceptor implements HandlerInterceptor {
-    private String tokenKey = "Authorization";
-
-    @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (!(handler instanceof HandlerMethod handlerMethod)) {
-            return true;
-        }
-        Method method = handlerMethod.getMethod();
-        // System.out.println("noAuth annotaion: " + method.getAnnotation(NoAuth.class));
-        // System.out.println("needAuth annotaion: " + method.getAnnotation(NeedAuth.class));
-        // System.out.println("AuthorNo annotaion: " + method.getAnnotation(AuthOrNo.class));
-        // 无需登录直接通过
-        if (method.getAnnotation(NoAuth.class) != null) {
-            return true;
-        }
-        // 进行token验证
-        try {
-            String token = request.getHeader(tokenKey);
-            Claims body = TokenManager.parseToken(token);
-            request.setAttribute("user_id", body.get("user_id"));
-            return true;
-        } catch (Exception e) {
-            if (method.getAnnotation(AuthOrNo.class) != null) {
-                return true;
-            }
-            WriteResponse.outputJsonString(
-                    new Message(401, 0, null, "认证失败"),
-                    response);
-            return false;
-        }
-    }
-}
-```
-
-把拦截器添加到项目请求中
-
-```java
-// config/MVCConfig.java
-
-@Configuration
-public class MVCCconfig implements WebMvcConfigure {
-    @Override
-    public void addInterceptor(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoginInterceptor());
-    }
-}
-```
-
-添加认证相关的注解, 次注解用于在 controller 处进行请求认证判断是否需要权限
-
-```java
-// util/annocation/AuthOrNo.java
-
-// 在 controller 处添加 AuthOrNo 的话说明该接口可需要 token , 也可以没有
-// 此接注解通用在表示用户登录和不登录有不同的行为时添加
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface AuthOrNo {
-}
-```
-
-```java
-// util/annocation/NeedAuth.java
-
-// 在 controller 请求接口处添加 NeedAuth 注解说明必须通过 token 认证
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface NeedAuth {
-}
-```
-
-```java
-// util/annocation/NoAuth.java
-
-// 在 controller 请求接口处添加 NoAuth 注解说明不必通过 token 认证
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface NoAuth {
-}
-
-```
-
 ## V. Mybatis 配置
 
 用于处理 mybatis 数据的时间自动更新和分页问题
+
+方法一:
+
+仅处理分页
+
+```java
+// config/MyBatisPlusConfig.java
+
+@Configuration
+@MapperScan("com.curve.mapper")
+public class MybatisPlusConfig {
+
+    /**
+     * 添加分页插件
+     */
+    @Bean
+    public MybatisPlusInterceptor mybatisPlusInterceptor() {
+        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+        interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));//如果配置多个插件,切记分页最后添加
+        //interceptor.addInnerInterceptor(new PaginationInnerInterceptor()); 如果有多数据源可以不配具体类型 否则都建议配上具体的DbType
+        return interceptor;
+    }
+}
+```
+
+方法二:
+
+处理分页和创建更新中特定字段填充
 
 ```java
 // config/MyBatisPlusConfig.java
@@ -720,7 +839,7 @@ public class MybatisPlusConfig implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
-        // System.out.println("插入修改逻辑");
+        System.out.println("插入修改逻辑");
         setFieldValByName("createdAt", LocalDateTime.now(), metaObject);
         setFieldValByName("updatedAt", LocalDateTime.now(), metaObject);
     }
