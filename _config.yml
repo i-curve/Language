@@ -1,7 +1,7 @@
 theme: jekyll-theme-cayman
 
 layout: post
-favicon: /img/favicon.ico
+favicon: /assets/img/favicon.ico
 
 title: "language"
 
