@@ -8,17 +8,28 @@ spring 官网: [spring.io](spring.io)
 
 - [spring-boot](#spring-boot)
   - [I. 初始化项目](#i-初始化项目)
+    - [通过 idea 创建](#通过-idea-创建)
   - [II. 初始化依赖](#ii-初始化依赖)
   - [III. 初始化相关 util](#iii-初始化相关-util)
+    - [1. 统一封装返回值](#1-统一封装返回值)
+    - [2. 配置请求中间件](#2-配置请求中间件)
+    - [3. 配置响应中间件](#3-配置响应中间件)
+    - [4. 把拦截器添加到项目请求中](#4-把拦截器添加到项目请求中)
   - [IV. 配置项目](#iv-配置项目)
+    - [1. 配置项目启动程序](#1-配置项目启动程序)
+    - [2. 配置实体和 mapper](#2-配置实体和-mapper)
+    - [3. 配置 Service 服务](#3-配置-service-服务)
+    - [4. 配置 Controller 控制器](#4-配置-controller-控制器)
   - [V. Mybatis 配置](#v-mybatis-配置)
+    - [方法一:](#方法一)
+    - [方法二:](#方法二)
   - [VI. 项目打包发布](#vi-项目打包发布)
 
 <!-- /code_chunk_output -->
 
 ## I. 初始化项目
 
-- 通过 idea 创建
+### 通过 idea 创建
 
 创建时选择 maven 项目
 
@@ -191,7 +202,7 @@ mybatis-plus:
 
 ## III. 初始化相关 util
 
-1. 统一封装返回值
+### 1. 统一封装返回值
 
 定义单个返回对象 Message.java
 
@@ -250,7 +261,7 @@ public class WriteResponse {
 }
 ```
 
-2. 配置请求中间件
+### 2. 配置请求中间件
 
 添加 TokenManager 类配置登录拦截器文件, 用于处理 token 认证 用于处理 token 加密和解密操作
 
@@ -338,41 +349,43 @@ public class TokenManager {
 // util/interceptor/RequestInterceptor.java
 
 public class RequestInterceptor implements HandlerInterceptor {
-    private String tokenKey = "Authorization";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (!(handler instanceof HandlerMethod handlerMethod)) {
             return true;
         }
-        Method method = handlerMethod.getMethod();
-        // System.out.println("noAuth annotaion: " + method.getAnnotation(NoAuth.class));
-        // System.out.println("needAuth annotaion: " + method.getAnnotation(NeedAuth.class));
-        // System.out.println("AuthorNo annotaion: " + method.getAnnotation(AuthOrNo.class));
-        // 无需登录直接通过
-        if (method.getAnnotation(NoAuth.class) != null) {
+        NoAuth noAuth = handlerMethod.getMethodAnnotation(NoAuth.class);
+        NeedAuth needAuth = handlerMethod.getMethodAnnotation(NeedAuth.class);
+        AuthOrNo authOrNo = handlerMethod.getMethodAnnotation(AuthOrNo.class);
+        if (noAuth == null && needAuth == null && authOrNo == null) {
+            noAuth = handlerMethod.getMethod().getDeclaringClass().getAnnotation(NoAuth.class);
+            needAuth = handlerMethod.getMethod().getDeclaringClass().getAnnotation(NeedAuth.class);
+            authOrNo = handlerMethod.getMethod().getDeclaringClass().getAnnotation(AuthOrNo.class);
+        }
+
+        if (noAuth != null) { // 无需登录直接通过
             return true;
         }
-        // 进行token验证
-        try {
+
+        try { // 进行token验证
+            String tokenKey = "Authorization";
             String token = request.getHeader(tokenKey);
             Claims body = TokenManager.parseToken(token);
             request.setAttribute("user_id", body.get("user_id"));
             return true;
         } catch (Exception e) {
-            if (method.getAnnotation(AuthOrNo.class) != null) {
+            if (authOrNo != null) {
                 return true;
             }
-            WriteResponse.outputJsonString(
-                    new Message(401, 0, null, "认证失败"),
-                    response);
+            WriteResponse.outputJsonString(new Message(401, 0, null, "认证失败"), response);
             return false;
         }
     }
 }
 ```
 
-3. 配置响应中间件
+### 3. 配置响应中间件
 
 用于处理返回值中的时间等字段
 
@@ -418,7 +431,7 @@ public class ResponseInterceptor implements HandlerMethodReturnValueHandler, Asy
 }
 ```
 
-4. 把拦截器添加到项目请求中
+### 4. 把拦截器添加到项目请求中
 
 ```java
 // config/MVCConfig.java
@@ -428,7 +441,9 @@ public class MVCCconfig implements WebMvcConfigure {
 
     @Override
     public void addInterceptor(InterceptorRegistry registry) {
-        registry.addInterceptor(new RequestInterceptor());
+        registry.addInterceptor(new RequestInterceptor())
+                .excludePathPatterns("/error")
+                .addPathPatterns("/**");
         WebMvcConfigurer.super.addInterceptors(registry);
     }
     /**
@@ -465,7 +480,7 @@ public class MVCCconfig implements WebMvcConfigure {
 
 // 在 controller 处添加 AuthOrNo 的话说明该接口可需要 token , 也可以没有
 // 此接注解通用在表示用户登录和不登录有不同的行为时添加
-@Target(ElementType.METHOD)
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AuthOrNo {
 }
@@ -475,7 +490,7 @@ public @interface AuthOrNo {
 // util/annocation/NeedAuth.java
 
 // 在 controller 请求接口处添加 NeedAuth 注解说明必须通过 token 认证
-@Target(ElementType.METHOD)
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface NeedAuth {
 }
@@ -485,7 +500,7 @@ public @interface NeedAuth {
 // util/annocation/NoAuth.java
 
 // 在 controller 请求接口处添加 NoAuth 注解说明不必通过 token 认证
-@Target(ElementType.METHOD)
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface NoAuth {
 }
@@ -494,7 +509,7 @@ public @interface NoAuth {
 
 ## IV. 配置项目
 
-1. 配置项目启动程序
+### 1. 配置项目启动程序
 
 ```java
 // DemoApplication.java
@@ -508,7 +523,7 @@ public class DemoApplication {
 }
 ```
 
-2. 配置实体和 mapper
+### 2. 配置实体和 mapper
 
 ```java
 // model/User.java
@@ -545,7 +560,7 @@ public interace UserMapper BaseMapper<User> {
 }
 ```
 
-3. 配置 Service 服务
+### 3. 配置 Service 服务
 
 定义 userService 接口
 
@@ -665,7 +680,7 @@ public class UserServiceImpl implements UserService {
 }
 ```
 
-4. 配置 Controller 控制器
+### 4. 配置 Controller 控制器
 
 ```java
 // controller/UserController.java
@@ -791,7 +806,7 @@ public class TestController {
 
 用于处理 mybatis 数据的时间自动更新和分页问题
 
-方法一:
+### 方法一:
 
 仅处理分页
 
@@ -815,7 +830,7 @@ public class MybatisPlusConfig {
 }
 ```
 
-方法二:
+### 方法二:
 
 处理分页和创建更新中特定字段填充
 
