@@ -15,6 +15,7 @@
 - [cmake](CMAKE/README.md)
 - [makefile](MAKE/README.md)
 - [gdb](GDB/README.md)
+- [test](TEST/README.md)
 
 数据库类
 
@@ -30,7 +31,7 @@
 
 编程语言类
 
-- [c++](C++/readme.md)  
+- [c++](C++/README.md)  
   [c++ linux](C++/linux.md)  
   [c++ windows](C++/windows.md)  
   [c++ ext](C++/extension.md)  
@@ -44,6 +45,7 @@
   [spring](JAVA/spring.md)  
   [spring-boot](JAVA/spring-boot.md)
 - [c#](C#/README.md)
+  [c# miscrosoft](C#/microsoft.md)
 - [python](PYTHON/README.md)  
   [crawler](PYTHON/爬虫.md)  
   [django](PYTHON/django.md)  
