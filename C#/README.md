@@ -167,6 +167,8 @@ dict.Add(1,"a");
 
 ## III. 反射
 
+{% raw %}
+
 c# 中的反射是以.dll 文件为组成单位(程序集,Assembly), 在获取到程序集之后就可以或许程序集里面的类,并进而进行操作
 
 程序集中的类对应 Type 类型  
@@ -266,3 +268,5 @@ public class User(int id, string username, int age)
     }
 }
 ```
+
+{% endraw %}
