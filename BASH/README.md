@@ -62,7 +62,7 @@ ${variable##msg}
 ${variable%msg}
 ${variable%%msg}
 
-## 字符串替换
+## 字符串替换, 两个斜杠代表全部替换
 ${variable/msg/afk}
 ${variable//msg/afk}
 ```
@@ -124,6 +124,8 @@ esac
 for ((i=0;i<10;i++));do
     echo $i
 done
+# 输出1到5
+for item in {1..5}; do echo $item;done
 # 2. 遍历数组
 for i in ${arr[@]};do
     echo $i

@@ -1,13 +1,20 @@
-# JAVA doc
+# JAVA
 
-java 是一门跨平台, 高性能, 分布式, 多线程语言.
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
 
-- [JAVA doc](#java-doc)
+<!-- code_chunk_output -->
+
+- [JAVA](#java)
   - [I. 基本语法](#i-基本语法)
-  - [高级用法](#高级用法)
+  - [II. 高级用法](#ii-高级用法)
     - [1. 异常](#1-异常)
     - [2. 容器](#2-容器)
+  - [III. 反射](#iii-反射)
   - [扩展知识](#扩展知识)
+
+<!-- /code_chunk_output -->
+
+java 是一门跨平台, 高性能, 分布式, 多线程语言.
 
 ## I. 基本语法
 
@@ -110,7 +117,7 @@ public Phone{
 内部类: 成员内部类和局部内部类(详细参考 b161)  
 成员内部类就是在类内部又定义了一个类
 
-## 高级用法
+## II. 高级用法
 
 ### 1. 异常
 
@@ -131,6 +138,58 @@ List l = new ArrayList<int>();
 ArrayList<Integer> al = new ArrayList<Integer>();
 ```
 
+## III. 反射
+
+java 中的反射是一种伪反射, 采用了类型擦除方法, 本质是把泛型的类型转换为 Objec 对象,但是编译器会在具体某种类型的时候会加上强转, 因此在使用上比手写 Object 体验更加. java 在编译反射时会加入一些类型相关信息的备注, 因此也是可以相应成度的获取类型信息的
+
+Java 反射中
+
+获取反射类对应的类型为 Class  
+构造方法为 Constroctor  
+字段对应的类型为 Field  
+方法对应的类型为 Method
+
+获取 java 反射中的类信息
+
+```java
+// 通过类文件路径进行获取
+Class userClass1 = class.forName("类的文件路径")
+// 通过类获取
+Class userClass2 = User.class
+// 通过getClass()方法获取
+Class userClass3 = user.getClass()
+```
+
+构造函数
+调用 getConstructor 和 getDeclaredConstructors 方法
+
+获取 Field
+
+```java
+// 获取所有字段(只含有public, 包含继承链中的)
+Field[] fields1 = userClass1.getFields();
+// 获取所有声明的字段(包括私有,不含继承链中的字段)
+Field[] fields2 = userClass1.getDeclaredFields();
+// 获取指定字段
+Field field1 = userClass1.getField("fieldName");
+Field field2 = userClass1.getDeclaredField("fieldName");
+```
+
+获取 Method
+
+```java
+Method[] methods1 = clazz1.getMethods();
+Method[] methods2 = clazz1.getDeclaredMethods();
+Method method1 = clazz1.getMethod("getMethod");
+Method method1 = clazz1.getDeclaredMethod("getMethod");
+```
+
+对于私有变量,方法, 需要设置访问属性后才能够设置, 调用
+
+```java
+setAccessible(true);
+```
+
 ## 扩展知识
 
 - 垃圾回收机制(GC)
@@ -142,3 +201,7 @@ ArrayList<Integer> al = new ArrayList<Integer>();
 - 跨平台原理
 
 通过把程序编译成可在 java 虚拟机上运行的字节码实现跨平台
+
+```
+
+```
