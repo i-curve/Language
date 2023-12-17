@@ -1,5 +1,19 @@
 # Go 语言
 
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
+- [Go 语言](#go-语言)
+  - [I. 简介](#i-简介)
+  - [II. 基础语法](#ii-基础语法)
+  - [III. 语言深入](#iii-语言深入)
+    - [1. 协程和 channel](#1-协程和-channel)
+  - [IV. 泛型编程](#iv-泛型编程)
+  - [V. 反射](#v-反射)
+
+<!-- /code_chunk_output -->
+
 gc 具有内存清理、并发和异步、性能好、简洁特点
 
 ## I. 简介
@@ -129,14 +143,14 @@ for { // 是一个死循环, 一般处理channel
 
 continue,和 break 关键字和 c 语言一样
 
-## 2. 语言深入
+## III. 语言深入
 
-## 3. 反射
+### 1. 协程和 channel
 
-## 4. 泛型编程
+通过 go 关键字执行的函数
 
-go 1.18 开始支持
+## IV. 泛型编程
 
-扩展学习：
-[gin web 框架](gin.md)
-[gorm 数据库](gorm.md)
+## V. 反射
+
+[参考文章](https://draveness.me/golang/docs/part2-foundation/ch04-basic/golang-reflect/)

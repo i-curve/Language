@@ -37,6 +37,7 @@
   [c++ ext](C++/extension.md)  
   [c++ qt](C++/qt.md)
 - [css](CSS/README.md)
+- [go](GO/README.md)
 - [js](JS)  
   [js es](JS/README.md)  
   [js bom](JS/BOM.md)  
