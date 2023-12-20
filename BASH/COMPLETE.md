@@ -1,5 +1,19 @@
 # bash-complete
 
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
+- [bash-complete](#bash-complete)
+  - [I. 常用命令](#i-常用命令)
+    - [complete](#complete)
+    - [compgen](#compgen)
+  - [II. bash-complete 编写](#ii-bash-complete-编写)
+    - [1. 内置环境变量](#1-内置环境变量)
+    - [2. 样例程序](#2-样例程序)
+
+<!-- /code_chunk_output -->
+
 bash-complete 是一种用户 Bash 的自动补全工具, 同步按下 tab 键, bash-complete 将尝试根据当前上下文提供可能的补全选项
 
 ## I. 常用命令
