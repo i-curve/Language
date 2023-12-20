@@ -1,5 +1,7 @@
 # Language
 
+![author](https://img.shields.io/badge/author-i--curve-brightgreen) ![LICENSE](https://img.shields.io/badge/license-BSD--3-brightgreen)
+
 编程语言学习笔记
 
 ## 介绍
