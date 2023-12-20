@@ -1,13 +1,20 @@
 # bash 编程
 
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
 - [bash 编程](#bash-编程)
   - [说明](#说明)
-  - [I. 变量、数组及其运算](#i-变量数组及其运算)
+  - [I. 变量、数组及其运算](#i-变量-数组及其运算)
   - [II. 程序控制语句](#ii-程序控制语句)
   - [III. 基本命令](#iii-基本命令)
   - [IV. 文本三剑客](#iv-文本三剑客)
   - [V. mysql 相关操作](#v-mysql-相关操作)
   - [VI. 安全相关命令](#vi-安全相关命令)
+  - [VII. 提高](#vii-提高)
+
+<!-- /code_chunk_output -->
 
 ## 说明
 
@@ -408,3 +415,7 @@ iptables 的四表五链
 扩展 icmp 消息类型:  
 echo-reply: 0
 echo-request: 8
+
+## VII. 提高
+
+[bash-complete](./COMPLETE.md)
