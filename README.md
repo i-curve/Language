@@ -17,11 +17,15 @@
 工具类
 
 - [docker](DOCKER/README.md)
-- [git](GIT/README.md)
+
 - [cmake](CMAKE/README.md)
 - [makefile](MAKE/README.md)
 - [gdb](GDB/README.md)
-- [test](TEST/README.md)
+
+依赖管理工具
+
+- [conan](TOOL/conan.md)
+- [git](GIT/README.md)
 
 数据库类
 
@@ -58,6 +62,10 @@
   [crawler](PYTHON/爬虫.md)  
   [django](PYTHON/django.md)  
   [pyinstall](PYTHON/pyinstall.md)
+
+测试
+
+- [test](TEST/README.md)
 
 ## LICENSE
 
