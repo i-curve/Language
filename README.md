@@ -19,13 +19,13 @@
 - [docker](DOCKER/README.md)
 
 - [cmake](CMAKE/README.md)
-- [makefile](MAKE/README.md)
-- [gdb](GDB/README.md)
+- [makefile](TOOL/make.md)
+- [gdb](TOOL/gdb.md)
 
 依赖管理工具
 
 - [conan](TOOL/conan.md)
-- [git](GIT/README.md)
+- [git](TOOL/git.md)
 
 数据库类
 
@@ -66,6 +66,10 @@
 测试
 
 - [test](TEST/README.md)
+
+扩展
+
+- [字符编码](TOOL/字符编码.md)
 
 ## LICENSE
 
