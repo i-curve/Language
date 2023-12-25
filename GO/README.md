@@ -147,7 +147,63 @@ continue,和 break 关键字和 c 语言一样
 
 ### 1. 协程和 channel
 
-通过 go 关键字执行的函数
+> 协程: 通过 go 关键字执行的函数为协程, 函数级并发, 比线程更轻量级
+
+chan 注意事项:
+
+1. 使用的 chan 必须通过 make 初始化
+2. close(chan) 之后, 再写会 panic, 读的话为类型默认值, 状态 false
+3. 没有 close 的话,读的话会造成死锁
+4. 在没有任何协程使用 chan 的话, 即时不用 close 函数 chan 也会被 gc 回收, 但也要特别注意死锁
+
+chan 声明:
+chan 分为可读可写 chan, 只读 chan, 只写 chan
+
+双向 chan 可隐式转为为只读或只写 chan, 反之不行
+
+当通过 chan 发送数据之后, 通常数据的所有权就发生了该变
+
+```go
+// 可读,可写
+var chan1 chan int
+chan11 = make(chan int)
+// 只写管道
+var chan2 chan <- int
+chan22 = make(chan<- int)
+// 只读管道
+var chan3 <-chan int
+chan33 = make(<-chan int)
+```
+
+go 可以声明带缓冲区的 chan
+
+```go
+chana := make(chan int, 10)
+```
+
+chan 操作
+
+```go
+// 向chan1中写入数据. 长度为1,且没有读取协程发生堵塞
+chan1 <- 12
+// 向chan1中读取数据. 长度为1,且没有写入协程发生堵塞
+<-chan1
+
+// 关闭chan
+close(chan1)
+// 获取缓冲区长度
+cap(chan1)
+// 获取缓冲区中已经收到chan的数量
+len(chan1)
+```
+
+| operator  | nil chan       | close chan  | not-close not-nil chan |
+| --------- | -------------- | ----------- | ---------------------- |
+| **close** | panic          | panic       | success                |
+| **write** | block for ever | panic       | block or success       |
+| **read**  | block for ever | never block | block or success       |
+
+[chan 参考文档](https://go101.org/article/channel.html)
 
 ## IV. 泛型编程
 
