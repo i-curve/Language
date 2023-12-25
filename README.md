@@ -17,7 +17,6 @@
 工具类
 
 - [docker](DOCKER/README.md)
-
 - [cmake](CMAKE/README.md)
 - [makefile](TOOL/make.md)
 - [gdb](TOOL/gdb.md)
@@ -37,7 +36,7 @@
 
 - [assembly](ASSEMBLY/README.md)
 - [bash](BASH/README.md)
-- [powershell]()
+- [powershell](POWERSHELL/README.md)
 
 编程语言类
 
