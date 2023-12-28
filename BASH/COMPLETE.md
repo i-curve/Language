@@ -9,8 +9,8 @@
     - [complete](#complete)
     - [compgen](#compgen)
   - [II. bash-complete 编写](#ii-bash-complete-编写)
-    - [1. 内置环境变量](#1-内置环境变量)
-    - [2. 样例程序](#2-样例程序)
+    - [内置环境变量](#内置环境变量)
+    - [样例程序](#样例程序)
 
 <!-- /code_chunk_output -->
 
@@ -55,7 +55,7 @@ compgen -W "$@" -- ${COMP_WORDS[COMP_CWORD]}
 
 ## II. bash-complete 编写
 
-### 1. 内置环境变量
+### 内置环境变量
 
 > COMPREPLY: 将要出现的补全结果, 如果只有一个条目的话, 将会直接进行补全
 
@@ -65,7 +65,7 @@ compgen -W "$@" -- ${COMP_WORDS[COMP_CWORD]}
 
 可以通过 `${COMP_WORDS[COMP_CWORD]}` 获取当前光标处已经键入的单词内容, 可以配置 compgen 函数进行筛选
 
-### 2. 样例程序
+### 样例程序
 
 ```bash
 # shellcheck disable=SC2148

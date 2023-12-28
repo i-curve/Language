@@ -1,6 +1,8 @@
 # assembly 学习
 
-主要说明 x86 架构 32 程序的汇编
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
 
 - [assembly 学习](#assembly-学习)
   - [I. 8 个通用寄存器](#i-8-个通用寄存器)
@@ -9,6 +11,10 @@
   - [IV. eflag 寄存器和 jcc 指令](#iv-eflag-寄存器和-jcc-指令)
   - [V. 高级指令](#v-高级指令)
   - [VI. 64 位程序指令](#vi-64-位程序指令)
+
+<!-- /code_chunk_output -->
+
+主要说明 x86 架构 32 程序的汇编
 
 ## I. 8 个通用寄存器
 

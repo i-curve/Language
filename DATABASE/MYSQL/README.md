@@ -1,20 +1,32 @@
 # MYSQL doc
 
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
 - [MYSQL doc](#mysql-doc)
   - [I. 基础知识](#i-基础知识)
+    - [1. 数据引擎](#1-数据引擎)
+    - [2. 字符集内容](#2-字符集内容)
+    - [3. 密码加密方式](#3-密码加密方式)
   - [II. 数据库级](#ii-数据库级)
+    - [1. 数据库操作](#1-数据库操作)
+    - [2. 用户管理](#2-用户管理)
   - [III. 表级](#iii-表级)
-  - [IV. 用户管理](#iv-用户管理)
-  - [V. 权限管理](#v-权限管理)
-  - [VI. 数据库优化](#vi-数据库优化)
-  - [VII. 索引类型](#vii-索引类型)
-  - [VIII. EXPLAIN 结果说明](#viii-explain-结果说明)
+    - [1. 表结构的编辑](#1-表结构的编辑)
+    - [2. 内容的编辑](#2-内容的编辑)
+  - [IV. 权限管理](#iv-权限管理)
+  - [V. 数据库优化](#v-数据库优化)
+  - [VI. 索引类型](#vi-索引类型)
+  - [VII. EXPLAIN 结果说明](#vii-explain-结果说明)
+
+<!-- /code_chunk_output -->
 
 > 数据库初级使用部分, 用于数据库增删改查的使用
 
 ## I. 基础知识
 
-1. 数据引擎
+### 1. 数据引擎
 
 > mysql8 默认存储引擎是 InnDB: 支持事务, 行锁, 宕机重启能自动恢复数据
 >
@@ -22,13 +34,13 @@
 
 - 使用 InnDB 数据引擎即可
 
-2. 字符集内容
+### 2. 字符集内容
 
 > mysql8 默认的字符集为 utf8mb4; 是一种比较完整的字符集
 >
 > mysql5.7 不是 utf8mb4, 因此创建表的时候应该加上字符集
 
-3. 密码加密方式
+### 3. 密码加密方式
 
 > mysql8.0 之后密码为非 mysql_native_password, 所以简单密码的时候会导致连接失败
 >
@@ -36,7 +48,7 @@
 
 ## II. 数据库级
 
-数据库信息的查看和使用
+### 1. 数据库操作
 
 ```mysql
 # 1. 查看数据库
@@ -48,9 +60,27 @@ create database dbname;
 use dbname; # 切换到数据库中
 ```
 
+### 2. 用户管理
+
+mysql.user 这个表是有 host,name 共同组成了一个主键
+
+```mysql
+# 1. 创建用户
+create user 'curve'@'%' identify with mysql_native_password by '123456';
+
+# 2. 更新用户信息
+# 更新mysql.user这个表即可
+
+# 3. 删除用户
+drop user 'curve'@'%';
+
+# 4. 更改密码
+alter user 'curve'@'%' identify with mysql_native_password by '123456';
+```
+
 ## III. 表级
 
-1. 表结构的编辑
+### 1. 表结构的编辑
 
 ```mysql
 # 1. 创建表
@@ -61,7 +91,7 @@ drop table `tbname`;
 alter table `tbname` add column/drop column/modify column/ `column_name` varchar(255) not null default "";
 ```
 
-2. 内容的编辑
+### 2. 内容的编辑
 
 ```mysql
 # 1. 插入记录
@@ -85,27 +115,7 @@ select * from `tbname` where 条件 order by id group by name;
 
 > 数据库高级部分, 用于数据库管理
 
-## IV. 用户管理
-
-mysql.user 这个表是有 host,name 共同组成了一个主键
-
-1. 创建用户
-
-```mysql
-# 1. 创建用户
-create user 'curve'@'%' identify with mysql_native_password by '123456';
-
-# 2. 更新用户信息
-# 更新mysql.user这个表即可
-
-# 3. 删除用户
-drop user 'curve'@'%';
-
-# 4. 更改密码
-alter user 'curve'@'%' identify with mysql_native_password by '123456';
-```
-
-## V. 权限管理
+## IV. 权限管理
 
 权限分为数据库权限, 表权限, 列权限
 
@@ -125,7 +135,7 @@ revoke username on *.* from 'curve'@'%';
 # 赋予用户的权限默认是只能自己使用的, 如果想让用户有grant 的权限 , 需要添加参数;
 ```
 
-## VI. 数据库优化
+## V. 数据库优化
 
 数据库执行流程: 连接层-> 服务层(构建树和优化查询) -> 数据库引擎 -> 数据
 
@@ -149,7 +159,7 @@ revoke username on *.* from 'curve'@'%';
 > 5. 忽略空值和 or
 > 6. 不等于 <>, != 也会失效
 
-## VII. 索引类型
+## VI. 索引类型
 
 > 聚簇索引: 主键索引( 唯一性索引) 和数据关联起来的
 >
@@ -170,7 +180,7 @@ create [unique] index idx_tbname_name(索引名) (`name`) on `table_name`;
 drop index idx_tbname_name;
 ```
 
-## VIII. EXPLAIN 结果说明
+## VII. EXPLAIN 结果说明
 
 - id: 数据执行的优先级, 越大优先级越高, 相等的话自上而下
 - table: 数据执行所在的表

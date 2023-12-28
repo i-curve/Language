@@ -11,6 +11,10 @@
     - [2. 数学运算](#2-数学运算)
     - [3. 变量替换](#3-变量替换)
     - [4. 变量获取](#4-变量获取)
+      - [1. `${varname:-word}`](#1-varname-word)
+      - [2. `${varname:=word}`](#2-varnameword)
+      - [3. `${varname:+word}`](#3-varnameword)
+      - [4. `${varname:?message}`](#4-varnamemessage)
   - [II. 程序控制语句](#ii-程序控制语句)
     - [1. if 条件判断](#1-if-条件判断)
     - [2. switch 语句](#2-switch-语句)
@@ -18,6 +22,9 @@
     - [4. 函数](#4-函数)
   - [III. 基本命令](#iii-基本命令)
   - [IV. 文本三剑客](#iv-文本三剑客)
+    - [1. grep 文本过滤命令](#1-grep-文本过滤命令)
+    - [2. sed 流文本编辑命令](#2-sed-流文本编辑命令)
+    - [3. awk 文本格式化命令](#3-awk-文本格式化命令)
   - [V. mysql 相关操作](#v-mysql-相关操作)
   - [VI. 安全相关命令](#vi-安全相关命令)
   - [VII. 提高](#vii-提高)
@@ -99,19 +106,19 @@ ${#arr[@]:1:2}
 `${varname-}` 变量如果不存在则为空(后面的值)
 `${varname+}` 变量如果存在则为空(后面的值)
 
-1. `${varname:-word}`
+#### 1. `${varname:-word}`
 
 语法的含义为如果 varname 存在且不为空, 则返回它的值否则返回 word. 目的是返回一个默认值
 
-2. `${varname:=word}`
+#### 2. `${varname:=word}`
 
 语法的含义为如果 varname 存在且不为空, 则返回他得值, 否则把他设置为 word 并返回 word. 目的是设置变量默认值
 
-3. `${varname:+word}`
+#### 3. `${varname:+word}`
 
 语法含义为如果 varname 存在且不为空, 则返回 word, 否则返回空. 目的是测试变量是否存在
 
-4. `${varname:?message}`
+#### 4. `${varname:?message}`
 
 语法含义如果 varname 存在且不为空, 则返回他得值, 否则打印 varnmae: message, 并终端脚本执行. 目的是防止变量未定义
 
@@ -257,7 +264,7 @@ option
 
 文本三剑客：grep, sed, awk
 
-1. grep 文本过滤命令
+### 1. grep 文本过滤命令
 
 格式: grep [option] pattern 文件  
 option:  
@@ -278,7 +285,7 @@ option:
 grep -i "hello" file #: 忽略大小写, 查找 hello
 ```
 
-2. sed 流文本编辑命令
+### 2. sed 流文本编辑命令
 
 格式: sed [option] 'command' 文件  
 option:  
@@ -306,7 +313,7 @@ sed 7 中行 pattern:
 10,/express/command: 只处理 10-正则匹配到行的区间
 /express/,10command: 只处理正则匹配到行到 10 行的区间
 
-3. awk 文本格式化命令
+### 3. awk 文本格式化命令
 
 格式: awk 'BEGIN { } // {} END { }' 文件名
 

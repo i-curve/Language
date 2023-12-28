@@ -2,8 +2,14 @@
 
 # JS 变量基础和类型转换
 
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
 - [JS 变量基础和类型转换](#js-变量基础和类型转换)
   - [I. 变量类型](#i-变量类型)
+    - [数据类型](#数据类型)
+    - [类型转换](#类型转换)
   - [II. 函数](#ii-函数)
   - [III. 预编译过程](#iii-预编译过程)
   - [IV. 对象](#iv-对象)
@@ -16,32 +22,34 @@
   - [属性描述符](#属性描述符)
   - [跨域](#跨域)
 
+<!-- /code_chunk_output -->
+
 简介: javascript 的 es 标准
 
 ## I. 变量类型
 
-- 数据类型
+### 数据类型
 
-1. 基础类型
+- 基础类型
 
 > number,string,boolean,undefined,null, symbo(es6)
 
-2. 引用类型
+- 引用类型
 
 > object,function,array
 
-3. 可以通过 typeof 查看数据的类型, 返回的类型是 string
+- 可以通过 typeof 查看数据的类型, 返回的类型是 string
 
 > typeof(null) 得值是 'object', 这是历史遗留问题, 用户代指空对象
 
-4. if 条件用判断为 false 的值有
+- if 条件用判断为 false 的值有
 
 > 0, "", false, undefined, null, NaN
 
 NaN 和任何值都不相等,包括自己本身, 只能用 isNaN()函数去判断
 null == undefined: 为 true
 
-- 类型转换
+### 类型转换
 
 隐式类型转换
 

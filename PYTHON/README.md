@@ -1,11 +1,17 @@
 # python doc
 
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
 - [python doc](#python-doc)
   - [说明](#说明)
   - [I. 数据类型](#i-数据类型)
   - [II. 流程控制](#ii-流程控制)
   - [III. os 和 sys 模块](#iii-os-和-sys-模块)
   - [IV. 网路模块](#iv-网路模块)
+
+<!-- /code_chunk_output -->
 
 ## 说明
 
