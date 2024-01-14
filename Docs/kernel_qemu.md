@@ -80,22 +80,22 @@ export PS1="(kernel) =>"
 /bin/busybox sh
 ```
 
+给 init 文件执行权限 `chmod u+x init`
+
 制作 Makefile 文件
 
 ```Makefile
 .PHONY: initramfs
-
 initramfs:
-        cd ./initramfs && find . -print0 | cpio -ov --null --format=newc | gzip -9 > ../initramfs.img
-
+    cd ./initramfs && find . -print0 | cpio -ov --null --format=newc | gzip -9 > ../initramfs.img
 
 run:
-        qemu-system-x86_64 \
-                -kernel bzImage \
-                -initrd initramfs.img \
-                -m 1G \
-                -nographic \
-                -append "earlyprintk=serial,ttyS0 console=ttyS0 loglevel=8"
+    qemu-system-x86_64 \
+            -kernel bzImage \
+            -initrd initramfs.img \
+            -m 1G \
+            -nographic \
+            -append "earlyprintk=serial,ttyS0 console=ttyS0 loglevel=8"
 ```
 
 制作 initramfs 并运行
