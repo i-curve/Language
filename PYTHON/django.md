@@ -1,10 +1,26 @@
 # Django
 
-django 是 python 的一个网络框架, 用于快速服务端开发
+django 是 python 的一个 web 框架, 用于快速服务端开发
+
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
+- [Django](#django)
+  - [I. django 使用](#i-django-使用)
+    - [django 常用命令](#django-常用命令)
+    - [MVC 语法](#mvc-语法)
+    - [django 数据库](#django-数据库)
+      - [1. 安装 mysqlclient](#1-安装-mysqlclient)
+      - [2. 创建 model 模型](#2-创建-model-模型)
+  - [II. django admin 使用](#ii-django-admin-使用)
+  - [III. djangorestframework 使用](#iii-djangorestframework-使用)
+
+<!-- /code_chunk_output -->
 
 ## I. django 使用
 
-### django 的安装和项目创建
+- django 的安装和项目创建
 
 ```bash
 # 安装
@@ -15,7 +31,7 @@ django-admin startproject demo
 
 django 项目的命令行 **startproject** 表明是项目, **startapp** 表明是子项目
 
-### django 目录结构
+- django 目录结构
 
 根 app
 
@@ -169,7 +185,7 @@ show_page.html
 
 ### django 数据库
 
-#### 安装 mysqlclient
+#### 1. 安装 mysqlclient
 
 ```bash
 pip install mysqlclient
@@ -190,7 +206,7 @@ DATABASES = {
 }
 ```
 
-#### 创建 model 模型
+#### 2. 创建 model 模型
 
 model.py
 
@@ -233,7 +249,46 @@ users = User.objects.all()
 print(serializers.serialize('json', users))
 ```
 
-## II. djangorestframework 使用
+## II. django admin 使用
+
+django 自带一套后台管理界面 django admin, 默认开启种状态.
+
+修改 django admin 的 ui, 推荐 [django-simpleui 文档](https://newpanjing.github.io/simpleui_docs/config.html)
+
+- **django 的 debug 模式**
+
+django 开发情况下默认开启 debug=True, 此时 django 会自动处理分目录和 app 目录下的 static 静态资源,但是当 debug=False 时, 就不会处理, 此时如何依赖一些静态资源就无法加载
+
+解决方法:
+
+1. settings.py 中添加 STATIC_ROOT 目录
+
+```py
+STATIC_ROOT=os.path.join(BASE_DIR, "templates/static")
+```
+
+2. 执行`python manager.py collectstatic` 命令
+
+此命令会收集项目中使用的静态资源并统一给放到 STATIC_ROOT 目录下
+
+3. 此时如果想访问静态资源可以通过 nginx 方式或者添加 url 路由
+
+添加 url 方式:
+
+```py
+# urls.py
+from django.urls import re_path
+from django.conf import settings
+from django.views import static
+
+urlpatterns = [
+    ...
+    re_path(r"^static/(?P<path>.*)$", static.serve,
+            {'document_root': settings.STATIC_ROOT}, name='static'),
+]
+```
+
+## III. djangorestframework 使用
 
 APIView
 
