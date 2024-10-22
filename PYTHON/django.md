@@ -290,7 +290,18 @@ urlpatterns = [
 
 ## III. djangorestframework 使用
 
-APIView
+---
+
+前言
+django 自带 View 类, 其中具有 as_view(), 和 dispatch 方法, 原理是根据请求的 method 类型, 转发到对应的类方法上, 需要自己实现, 没实现就会抛出异常
+
+---
+
+正文
+
+1. APIView 继承自 View
+
+- as_view()
 
 通过调用 as_view 方法, 会把请求根据请求方式分发给 get, post, put, delete, patch 方法
 
@@ -310,20 +321,33 @@ class User2View(ApiView):
         return Response("delete 方法",status_code = 200)
 ```
 
-APIView 对请求参数进行了封装, 此时的 req 是封装后的请求对象  
+APIView 对请求参数进行了封装, 此时的 req 是封装后的请求对象
+
 .\_request: 获取原始的请求头  
-.data: 获取请求体, 可以自动解析 json 和 x-www-form-urlencoded11  
+.data: 获取请求体, 可以自动解析 json 和 x-www-form-urlencoded  
 .query_params: 获取 query 参数  
 .headers: 获取请求头
 
-序列化
+- 序列化
+
+这里序列化中的限定, 是对前端传来的参数进行验证的, 如果是序列化, 需要传给 instance(数据库返回的值), 如果是反序列化, 需要传给 data(前端你返回的值)
+
+Serializer:
 
 ```python
 from rest_framework import serializers
 
 class UserSerializer(serializers.Serializer):
     username = serializers.CharField( max_length=50)
+    # 可以通过 source 指定数据库中对应的字段是什么, 实现前端字段和数据库字段分割
 
+```
+
+Serializer 实现了 save 方法, 具体是如果改序列器有 instance 参数, 那就是调用 create 方法新增, 如果没有那就是 update 方法更新, 这两个方法需要自己写
+
+ModelSerializer:
+
+```python
 class User2Serializer(serializers.ModelSerializer):
     # source参数说明数据库中字段名, 此时会覆盖默认的pub_data解析
     data = serializers.CharField(max_length=50, source="pub_data")
@@ -336,9 +360,10 @@ class User2Serializer(serializers.ModelSerializer):
 
 serializers.Serializer 需要手动指定相应字段, serializers.ModelSerializer 通过制定模型自动添加相应字段, 此时也可以通过手动声明方式进行覆盖
 
-其中 ModelSerializer 比 Serializer 增加了 Meta 来指明数据模型是什么和多实现了 create 和 update 方法, 此时可以通过 .save() 方法直接在序列化器中保存或者创建数据
+其中 ModelSerializer 比 Serializer 增加了 Meta 来指明数据模型是什么  
+实现了 create 和 update 方法, 此时可以通过 .save() 方法直接在序列化器中保存或者创建数据
 
-GenericAPIView
+2. GenericAPIView
 
 ```python
 from rest_framework.generics import GenericAPIView
@@ -347,14 +372,18 @@ class UserView(GenericAPIView):
     serializer_class = UserSerializer
 ```
 
-相对比 ApiView 来说, GenericAPIView 内部集成了 queryset 和系列化类, 此时可以写出更加通用的代码
+相对比 ApiView 来说, GenericAPIView 内部集成了 queryset 和序列化器类, 此时可以写出更加通用的代码
 self.get_queryset(): 获取多有的数据集
 self.get_object(): 根据参数中的 pk 进行主键查询
 self.get_serializer(): 调用序列化器类的对象
 
 <!-- ViewSet -->
 
-GenericViewSet
+3. minins 混合类
+
+restframework 根据上面的 GenericAPIView 添加了 minins 混合类 ListModelMixin, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin等一系列混合类, 可以根据需求选择使用
+
+4. GenericViewSet
 
 ```python
 from rest_framework import viewsets
@@ -375,7 +404,7 @@ class UserView(views.GenericViewSet):
         pass
 ```
 
-urls.py 修改
+5. urls.py 修改
 
 ```python
 from rest_framework import routers
@@ -387,7 +416,7 @@ urlpatterns = []
 urlpatterns += router.urls
 ```
 
-ModelViewSet
+6. ModelViewSet
 
 ```python
 from rest_framework import viewsets
