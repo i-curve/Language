@@ -4,11 +4,11 @@
 
 - [CMAKE doc](#cmake-doc)
   - [说明](#说明)
-  - [I. cmake\_minimum\_required 指令](#i-cmake_minimum_required-指令)
+  - [I. cmake_minimum_required 指令](#i-cmake_minimum_required-指令)
   - [II. project 指令](#ii-project-指令)
   - [III. message 指令](#iii-message-指令)
   - [IV. set，option 指令](#iv-setoption-指令)
-  - [V. configure\_file 指令](#v-configure_file-指令)
+  - [V. configure_file 指令](#v-configure_file-指令)
   - [VI. 生成 target](#vi-生成-target)
   - [VII. 子目录](#vii-子目录)
   - [VIII. 头文件搜索路径](#viii-头文件搜索路径)
@@ -46,15 +46,17 @@ project(demo VERSION 1.2 LANGUAGES CXX)
 ```
 
 project(projectName [VERSION 1.2] [LANGUAGES CXX]): 指定项目名称及其相应信息, 一个项目有一个 project  
-VERSION、LANGUAGES 连个均为可选项
+VERSION、LANGUAGES 两个均为可选项
 
 ## III. message 指令
 
 ```cmake
 message([STATUS] message)
-```
 
-用于在 cmake 时输出信息, 可选项 STATUS 用于在信息前加上--
+# STATUS 前缀为--的信息
+# SEND_ERROR 产生错误，跳过生成过程
+# FATAL_ERROR 产生错误，终止运行
+```
 
 ## IV. set，option 指令
 
@@ -97,7 +99,7 @@ aux_source_directory(dir VARIABLE)
 add_subdirectory(subdir [name])
 ```
 
-add_subdirecotry: 添加子目录到 cmake 当中, 子目录的 CMakeLists.txt(因此改文件必须有)
+add_subdirecotry: 添加子目录到 cmake 当中, 子目录的 CMakeLists.txt(因此该文件必须有)
 
 ## VIII. 头文件搜索路径
 
@@ -158,13 +160,13 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS on)
 | 名称                          | 范围             | 作用                                                           |
 | ----------------------------- | ---------------- | -------------------------------------------------------------- |
 | EXECUTABLE_OUTPUT_PATH        | dir              | 设置最终生成可执行文件路径                                     |
+| LIBRARY_OUTPUT_PATH           | dir              | 最终生成链接库文件路径                                         |
 |                               |                  |
 | CMAKE_EXPORT_COMPILE_COMMANDS | on\|off          | 是否生成 compile.json 文件                                     |
 | CMAKE_BUILD_TYPE              | Debug \| Release | 设置可执行文件的模式,debug 或者 release 模式, 和是否按 F5 无关 |
 | PROJECT_SOURCE_DIR            | dir              | 项目根路径                                                     |
 | PROJECT_CURRENT_SOURCE_DIR    | dir              | 当前所在 CMakeLists.txt 文件的路径                             |
 | PROJECT_BINARY_DIR            | dir              | cmake 执行的路径 ()                                            |
-| LIBRARY_OUTPUT_PATH           | dir              | 最终生成链接库文件路径                                         |
 
 ## XII. 其他信息
 
@@ -175,7 +177,7 @@ if (MSVC) # 微软msvc编译器
     add_compile_options("/source-charset:utf-8")
     add_compile_options("/execution-charset:gbk")
 elseif (MINGW) # windows g++编译器
-    add_compile_options(-std=c++2a -finput-charset=utf-8 -fexec-charset=gbk)
+    add_compile_options(-std=c++20 -finput-charset=utf-8 -fexec-charset=gbk)
 elseif (UNIX) # linux, macos 编译器
     add_compile_options(-std=c++20)
 endif()
