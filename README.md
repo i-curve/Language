@@ -59,6 +59,7 @@
   [crawler](PYTHON/爬虫.md)  
   [django](PYTHON/django.md)  
   [pyinstall](PYTHON/pyinstall.md)
+  [poetry](PYTHON/poetry.md)
 
 测试
 
