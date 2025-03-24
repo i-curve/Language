@@ -120,7 +120,7 @@ ${#arr[@]:1:2}
 
 #### 4. `${varname:?message}`
 
-语法含义如果 varname 存在且不为空, 则返回他得值, 否则打印 varnmae: message, 并终端脚本执行. 目的是防止变量未定义
+语法含义如果 varname 存在且不为空, 则返回他得值, 否则打印 varnmae: message, 并中断脚本执行. 目的是防止变量未定义
 
 ## II. 程序控制语句
 
@@ -177,6 +177,10 @@ done
 for word in $(cat file);do
     echo $word
 done
+# 4. 按行遍历
+while IFS= read -r line; do
+    echo $line;
+done < file
 ```
 
 ### 4. 函数
@@ -223,7 +227,7 @@ option
 
 格式 cut [option] [field] [filename]  
 option  
--d -f: 分隔符, 去第 n 个字段  
+-d -f: 分隔符, 取第 n 个字段  
 -c: 按照字符下标去取
 
 - read: 读取输入
@@ -400,6 +404,30 @@ mysql -uroot -hlocalhost -p -P3306 -Dexpress -e "select * from user;" -N -B
 最终得出来的结果可以直接通过命令进行处理
 
 ## VI. 安全相关命令
+
+- uwf: 简单防火墙
+
+ufw 默认放行所有出流量, 禁用入流量
+
+```shell
+# 开启
+ufw enable
+# 关闭
+ufw disable
+# 查看状态
+ufw status [verbose | numbered]
+
+# 允许端口
+ufw allow 22
+# 允许22 tcp
+ufw allow 22/tcp
+
+# 允许特定ip连接到 22端口, tcp协议, 全写法
+ufw allow from 192.168.1.2 to any port 22 proto tcp
+
+# 删掉协议
+ufw delete allow xxx(上面添加的命令)
+```
 
 - iptables: 防火墙操作相关命令
 
