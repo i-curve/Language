@@ -76,6 +76,14 @@ drop user 'curve'@'%';
 
 # 4. 更改密码
 alter user 'curve'@'%' identify with mysql_native_password by '123456';
+
+# 5. 锁定账户
+alter user 'curve'@'%' account lock;
+# 6. 解锁账户
+alter user 'curve'@'%' account unlock;
+
+# 7. 查看用户
+select host,user,account_locked from mysql.user;
 ```
 
 ## III. 表级
